@@ -1,7 +1,18 @@
 package algorithms.mazeGenerators;
 
+import java.util.Arrays;
+
 public class Maze {
     private int rows;
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
     private int columns;
     private int[][] maze;
     private Position startPosition;
@@ -21,6 +32,11 @@ public class Maze {
         return this.endPosition;
     }
 
+    public void setMaze(int value){
+        for(int[] array : this.maze){
+            Arrays.fill(array, value);
+        }
+    }
 
     public void setStartPosition(Position newPosition) {
         this.startPosition = newPosition;
@@ -94,7 +110,6 @@ public class Maze {
 
             System.out.println(" \u001b[107m");
         }
-        System.out.println("");
         System.out.println("\u001b[31m\uD83D\uDC99\uD83D\uDC99\uD83D\uDC99 liad is the qween \uD83E\uDDDC\u200D \uD83D\uDC99\uD83D\uDC99\uD83D\uDC99 \u001b[0m");
         System.out.println();
     }

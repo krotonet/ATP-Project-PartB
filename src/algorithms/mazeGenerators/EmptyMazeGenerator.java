@@ -6,7 +6,7 @@ public class EmptyMazeGenerator extends AMazeGenerator{
     @Override
     public Maze generate(int rows, int columns) {
         Maze maze = new Maze(rows,columns);
-
+        maze.setMaze(0);
         Random random = new Random();
         int rowP = random.nextInt(rows);
         int colP = random.nextInt(columns);
