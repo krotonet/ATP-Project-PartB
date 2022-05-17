@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Position {
     private int row;
     private int column;
-    private boolean isWall;
 
     public Position(int row, int column){
         this.row = row;
@@ -15,21 +14,11 @@ public class Position {
     public Position(int row, int column, boolean isWall){
         this.row = row;
         this.column = column;
-        this.isWall = isWall;
-    }
-
-    public boolean isWall() {
-        return isWall;
-    }
-
-    public void setWall(boolean wall) {
-        isWall = wall;
     }
 
     public void setPosition(int row, int col){
         this.row = row;
         this.column = col;
-        this.isWall = false;
     }
     public int getRowIndex(){
         return this.row;

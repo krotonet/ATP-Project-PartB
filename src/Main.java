@@ -29,7 +29,7 @@ public class Main {
 
     private static int[][] getRowsColumnsCombinations() {
         int[][] rowsColumnsCombinations = {
-                {15, 17}
+                {50, 51}
         };
         return rowsColumnsCombinations;
     }
@@ -43,7 +43,7 @@ public class Main {
         for (int i = 0; i < rowsColumnsCombinations.length; i++) {
             rows = rowsColumnsCombinations[i][0];
             columns = rowsColumnsCombinations[i][1];
-            Test_MazeGenerator(new SimpleMazeGenerator(), rows, columns);
+            Test_MazeGenerator(new MyMazeGenerator(), rows, columns);
         }
     }
 

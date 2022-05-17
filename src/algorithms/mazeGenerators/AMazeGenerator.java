@@ -18,7 +18,7 @@ public abstract class AMazeGenerator implements IMazeGenerator{
         long time = System.currentTimeMillis();
         generate(row,column);
         time = System.currentTimeMillis() - time;
-        System.out.println(System.currentTimeMillis());
+        System.out.println(time);
         return time;
     }
 }

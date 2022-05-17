@@ -70,7 +70,6 @@ public class Maze {
             }
             System.out.println(" \u001b[107m");
         }
-        System.out.println("\u001b[31m\uD83D\uDC99\uD83D\uDC99\uD83D\uDC99 liad is the qween \uD83E\uDDDC\u200D \uD83D\uDC99\uD83D\uDC99\uD83D\uDC99 \u001b[0m");
         System.out.println();
     }
 
