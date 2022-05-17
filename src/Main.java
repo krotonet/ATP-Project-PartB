@@ -3,7 +3,10 @@
  */
 
 import algorithms.mazeGenerators.*;
+import algorithms.search.*;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -15,47 +18,9 @@ public class Main {
 
     public static void main(String[] args) {
         appendToResultsFile("Test started!");
-//        Tests_SearchOnMaze();
         Tests_GenerateMaze();
-//        testEmptyMaze(new EmptyMazeGenerator(),10,10);
-
+//        Tests_SearchOnMaze();
         appendToResultsFile("Test finished!");
-//
-//        //print
-//        for (int i = 0; i < row; i++){
-//            for( int j = 0; j < col; j++){
-//                System.out.print(maze[i][j] + " ");
-//            }
-//            System.out.print("\n");
-//        }
-
-    }
-
-    private static void testEmptyMaze(IMazeGenerator mazeGenerator, int rows, int columns){
-
-        boolean testStatus = true;
-        try {
-            // prints the time it takes the algorithm to run
-            mazeGenerator.measureAlgorithmTimeMillis(rows, columns);
-            // generate another maze
-            Maze maze = mazeGenerator.generate(rows, columns);
-            // prints the maze
-            maze.print();
-
-            // get the maze entrance
-            Position startPosition = maze.getStartPosition();
-            startPosition.getColumnIndex();
-            startPosition.getRowIndex();
-
-            // get goal position
-            Position startGoalPosition = maze.getGoalPosition();
-            startPosition.getColumnIndex();
-            startPosition.getRowIndex();
-        } catch (Exception e) {
-            testStatus = false;
-        } finally {
-            appendToResultsFile(String.format("TEST %s: generating maze (%s*%s) using %s", getTestStatusString(testStatus), rows, columns, mazeGenerator.getClass().getSimpleName().toString()));
-        }
     }
 
     private static String getTestStatusString(boolean testPassed) {
@@ -64,7 +29,7 @@ public class Main {
 
     private static int[][] getRowsColumnsCombinations() {
         int[][] rowsColumnsCombinations = {
-                {10, 10}
+                {15, 17}
         };
         return rowsColumnsCombinations;
     }
@@ -158,4 +123,3 @@ public class Main {
         }
     }
 }
-

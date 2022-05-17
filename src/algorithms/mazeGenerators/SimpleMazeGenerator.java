@@ -26,7 +26,6 @@ public class SimpleMazeGenerator extends AMazeGenerator{
             positions.put(i, temp);
         }
 
-
         //set walls in random cells
         Random random = new Random();
         for(int i = 0; i < rows; i ++){
@@ -39,11 +38,12 @@ public class SimpleMazeGenerator extends AMazeGenerator{
         }
         return maze;
     }
+
     public Maze generate(int rows, int columns){
         Maze myMaze = new Maze(rows,columns);
         Map<Integer, List<Integer>> positions = new HashMap<Integer, List<Integer>>();
         myMaze.setStartPosition(new Position(0,0));
-        myMaze.setEndPosition(new Position(Math.min(rows, columns) - 1, Math.min(rows, columns) - 1));
+        myMaze.setEndPosition(new Position(rows - 1, columns - 1));
 
         //save solution
         //maybe make the decision of which way to go randomly
@@ -53,8 +53,7 @@ public class SimpleMazeGenerator extends AMazeGenerator{
         setPath(myMaze,columns / 2,myMaze.getStartPosition().getRowIndex(), rows, columns);
 
 //        setPath(myMaze, myMaze.getStartPosition().getColumnIndex(),rows / 2, rows, columns);
-
-        setPath(myMaze, random.nextInt(rows), random.nextInt(columns), rows, columns);
+//        setPath(myMaze, random.nextInt(rows), random.nextInt(columns), rows, columns);
 
 
         //set walls in random cells
@@ -68,35 +67,29 @@ public class SimpleMazeGenerator extends AMazeGenerator{
         }
         return myMaze;
     }
-    private static void setPath(Maze maze, int currentColumn, int currentRow, int row, int col){
-
+    private static void setPath(Maze maze, int currentColumn, int currentRow, int rows, int columns){
         //put ones in the maze
         //then check if it 0 then random
         //else continue
 
         int decision = random.nextInt(10);
-        while(currentColumn != col && currentRow != row){
+        while(currentColumn != columns && currentRow != rows){
             if(decision % 2 == 0){//move row + 1
                 maze.setValue(currentRow++,currentColumn,1);
+                if(currentRow + 1 < rows)
+                    maze.setValue(currentRow++,currentColumn,1);
             }
             else {
-                maze.setValue(currentRow, currentColumn++, 1);
+                if(currentColumn + 1 < columns)
+                    maze.setValue(currentRow, currentColumn++, 1);
             }
-//            if(decision % 3 == 0){
-//                maze.setValue(currentRow, currentColumn++, 1);
-//                maze.setValue(currentRow, currentColumn++, 1);
-//            }
-//            if(decision % 2 == 0){
-//                maze.setValue(currentRow++, currentColumn, 1);
-//                maze.setValue(currentRow++, currentColumn, 1);
-//            }
             decision = random.nextInt(10);
         }
 
-        while(currentRow != row){
+        while(currentRow != rows){
             maze.setValue(currentRow++, currentColumn - 1, 1);
         }
-        while(currentColumn != col){
+        while(currentColumn != columns){
             maze.setValue(currentRow - 1, currentColumn++, 1);
         }
     }
