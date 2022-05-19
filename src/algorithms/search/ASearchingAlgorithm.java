@@ -1,4 +1,4 @@
 package algorithms.search;
 
-public class ASearchingAlgorithm {
+public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
 }

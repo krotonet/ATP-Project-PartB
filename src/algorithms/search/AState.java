@@ -1,4 +1,4 @@
 package algorithms.search;
 
-public class AState {
+public abstract class AState {
 }
