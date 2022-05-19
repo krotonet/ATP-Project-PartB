@@ -1,4 +1,3 @@
-
 package algorithms.mazeGenerators;
 
 import java.util.*;
@@ -22,10 +21,10 @@ public class MyMazeGenerator extends AMazeGenerator{
         maze.setMaze(1);
 
         //draw starting position on one of the sides
-        //Position startPosition = getRandomStartPosition(rows, columns);
+        Position startPosition = getRandomStartPosition(rows, columns);
 
         //draw starting position on any spot on the grid
-        Position startPosition = new Position(random.nextInt(rows), random.nextInt(columns) );
+//        Position startPosition = new Position(random.nextInt(rows), random.nextInt(columns) );
         maze.setStartPosition(startPosition);
         maze.setValue(startPosition.getRowIndex(),startPosition.getColumnIndex(),0);
         //push starting cell to the stack
@@ -99,11 +98,11 @@ public class MyMazeGenerator extends AMazeGenerator{
      */
     public Position getRandomStartPosition(int rows, int columns){
         Position startPosition = null;
-        int randomSide = random.nextInt(5);
-        switch (randomSide){
+        int randomSide = random.nextInt(4) + 1;
+        switch (randomSide) {
             //start from left side
             case 1:
-                startPosition = new Position(random.nextInt(rows -1),0);
+                startPosition = new Position(random.nextInt(rows), 0);
                 break;
 
             //start from upper side
@@ -113,14 +112,13 @@ public class MyMazeGenerator extends AMazeGenerator{
 
             //start from right side
             case 3:
-                startPosition = new Position(random.nextInt(rows),columns - 1);
+                startPosition = new Position(random.nextInt(rows), columns - 1);
                 break;
 
-                //start from bottom
+            //start from bottom
             case 4:
                 startPosition = new Position(rows - 1, random.nextInt(columns));
                 break;
-
             default:
                 randomSide = random.nextInt(5);
         }
