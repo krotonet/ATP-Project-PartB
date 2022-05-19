@@ -54,7 +54,7 @@ public class MyMazeGenerator extends AMazeGenerator{
                 cells.push(unvisited);
             }
             //finding the end position
-            if (cells.size() > maxStackSize) {
+            if (cells.size() > maxStackSize && isFrontier(maze, currentCell.getRowIndex(), currentCell.getColumnIndex())) {
                 maxStackSize = cells.size();
                 endRow = currentCell.getRowIndex();
                 endColumn = currentCell.getColumnIndex();
@@ -63,6 +63,12 @@ public class MyMazeGenerator extends AMazeGenerator{
         maze.setEndPosition(new Position(endRow, endColumn));
 
         return maze;
+    }
+
+
+    public boolean isFrontier(Maze maze, int row, int col){
+        if(row == maze.getRows()-1 || row == 0 || col == maze.getColumns() - 1 || col == 0) return true;
+        return false;
     }
 
     /**

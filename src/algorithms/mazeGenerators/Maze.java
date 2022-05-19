@@ -9,6 +9,18 @@ public class Maze {
     private Position startPosition;
     private Position endPosition;
 
+    public Maze(int rows, int cols){
+        this.rows = rows;
+        this.columns = cols;
+        this.maze = new int[rows][cols];
+    }
+
+    public void setMaze(int value){
+        for(int[] array : this.maze){
+            Arrays.fill(array, value);
+        }
+    }
+
     public int getRows() {
         return rows;
     }
@@ -17,24 +29,12 @@ public class Maze {
         return columns;
     }
 
-    public Maze(int rows, int cols){
-        this.rows = rows;
-        this.columns = cols;
-        this.maze = new int[rows][cols];
-    }
-
     public Position getStartPosition(){
         return this.startPosition;
     }
 
     public Position getGoalPosition(){
         return this.endPosition;
-    }
-
-    public void setMaze(int value){
-        for(int[] array : this.maze){
-            Arrays.fill(array, value);
-        }
     }
 
     public void setStartPosition(Position newPosition) {
@@ -53,7 +53,6 @@ public class Maze {
     public int getValue(int row, int col){
         return this.maze[row][col];
     }
-
 
     public void print() {
         for(int i = 0; i < this.rows; ++i) {
