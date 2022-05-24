@@ -58,13 +58,13 @@ public class Maze {
         for(int i = 0; i < this.rows; ++i) {
             for(int j = 0; j < this.columns; ++j) {
                 if (i == this.startPosition.getRowIndex() && j == this.startPosition.getColumnIndex()) {
-                    System.out.print(" \u001B[42m ");
+                    System.out.print(" \u001B[42m "); //green-start
                 } else if (i == this.endPosition.getRowIndex() && j == this.endPosition.getColumnIndex()) {
-                    System.out.print(" \u001b[44m ");
+                    System.out.print(" \u001b[44m "); //blue-end
                 } else if (this.maze[i][j] == 1) {
-                    System.out.print(" \u001b[45m ");
+                    System.out.print(" \u001b[45m "); //purple
                 } else {
-                    System.out.print(" \u001b[107m ");
+                    System.out.print(" \u001b[107m "); //white
                 }
             }
             System.out.println(" \u001b[107m");
@@ -72,6 +72,17 @@ public class Maze {
         System.out.println();
     }
 
+    public void printNew() {
+        for (int i = 0; i < maze.length; i++) {
+            for (int j = 0; j < maze[0].length; j++) {
+                System.out.print(maze[i][j]);
+                if (j!=maze[0].length-1)
+                    System.out.print(",");
+            }
+            System.out.println();
+        }
+
+    }
 
 //    public void print3(Maze M, Solution mysol2){
 //

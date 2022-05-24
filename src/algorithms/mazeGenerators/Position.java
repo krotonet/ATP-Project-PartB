@@ -37,7 +37,7 @@ public class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return this.row == position.row && this.column == position.column;
+        return this.row == position.getRowIndex() && this.column == position.getColumnIndex();
     }
 
     @Override
