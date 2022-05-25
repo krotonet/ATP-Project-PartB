@@ -1,21 +1,18 @@
 package algorithms.search;
 
-public class BestFirstSearch extends ASearchingAlgorithm{
-    public BestFirstSearch() {
-    }
+import java.util.ArrayList;
+import java.util.PriorityQueue;
 
-    @Override
-    public Solution solve(ISearchable domain) {
-        return null;
+public class BestFirstSearch extends ASearchingAlgorithm{
+
+    public BestFirstSearch() {
+        this.frontier = new PriorityQueue<>(new costComparator());
+        this.solutionPath = new ArrayList<>();
     }
 
     @Override
     public String getName() {
-        return null;
+        return "Best First Search";
     }
 
-    @Override
-    public String getNumberOfNodesEvaluated() {
-        return null;
-    }
 }
