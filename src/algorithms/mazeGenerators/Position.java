@@ -11,15 +11,6 @@ public class Position {
         this.column = column;
     }
 
-    public Position(int row, int column, boolean isWall){
-        this.row = row;
-        this.column = column;
-    }
-
-    public void setPosition(int row, int col){
-        this.row = row;
-        this.column = col;
-    }
     public int getRowIndex(){
         return this.row;
     }

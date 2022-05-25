@@ -4,38 +4,33 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Solution {
-    private ArrayList<AState> finalsolution;
+    private final ArrayList<AState> finalSolution;
 
-    public Solution(){
-        //solution=new ArrayList<AState>();
-        finalsolution = new ArrayList<AState>();
+    public Solution(AState finalState){
+        finalSolution = new ArrayList<AState>();
+        createSolution(finalState);
     }
 
     public ArrayList<AState> getSolutionPath(){
-        return finalsolution;
+        return finalSolution;
     }
-
-
 
     /**
      *
-     * @param curr final state of the maze
-     * @param startState start state of the maze
+     * @param state start state of the maze
      * create a list of the solution`s states in the right order.
      */
-    public void createSolution(AState curr,AState startState) {
-     /***************************/
-        ArrayList<AState> tempSolution = new ArrayList<AState>();
-        Stack<AState> temp = new Stack<AState>();
-        while (curr!=startState){
-            temp.push(curr);
-            curr = curr.getFoundBy();
+    private void createSolution(AState state)
+    {
+        Stack<AState> tempPath = new Stack<>();
+        AState currentState = state;
+        while ( currentState!= null ){
+            tempPath.add(currentState);
+            currentState = currentState.getFoundBy();
         }
-        temp.push(curr); //start
-        while(!temp.isEmpty()){
-            tempSolution.add(temp.pop());
+        while(!tempPath.isEmpty()){
+            this.finalSolution.add(tempPath.pop());
         }
-        this.finalsolution = tempSolution;
     }
 
 }

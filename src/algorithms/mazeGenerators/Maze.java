@@ -1,5 +1,9 @@
 package algorithms.mazeGenerators;
 
+import algorithms.search.AState;
+import algorithms.search.MazeState;
+import algorithms.search.Solution;
+
 import java.util.Arrays;
 
 public class Maze {
@@ -84,37 +88,37 @@ public class Maze {
 
     }
 
-//    public void print3(Maze M, Solution mysol2){
-//
-//        for(int i = 0; i < M.maze.length; ++i) {
-//            for(int j = 0; j < M.maze[i].length; ++j) {
-//
-//                if (i == M.getStartPosition().getRowIndex() && j == M.getStartPosition().getColumnIndex()) {
-//                    System.out.print(" \u001b[46m"+"S");
-//                } else if (i == M.getGoalPosition().getRowIndex() && j == M.getGoalPosition().getColumnIndex()) {
-//                    System.out.print(" \u001b[46m"+"E");
-//                } else if ( M.maze[i][j] == 1) {
-//                    System.out.print(" \u001b[40m ");
-//                }
-//                else {
-//                    for(int x=0 ;x<mysol2.getSolutionPath().size() ;x++){
-//                        AState try2 = mysol2.getSolutionPath().get(x);
-//                        MazeState tryM = (MazeState) try2;
-//                        if(tryM.getPos().getRowIndex() ==i && tryM.getPos().getColumnIndex()==j) {
-//                            System.out.print(" \u001b[43m ");
-//                            break;
-//                        }
-//                        else if(x==mysol2.getSolutionPath().size()-1)
-//                            System.out.print(" \u001b[107m ");
-//                    }
-//
-//                }
-//            }
-//
-//            System.out.println(" \u001b[107m");
-//        }
-//        System.out.println("");
-//        System.out.println();
-//    }
+    public void printMazeWithSolution(Solution mysol2){
+
+        for(int i = 0; i < this.maze.length; ++i) {
+            for(int j = 0; j < this.maze[i].length; ++j) {
+
+                if (i == this.getStartPosition().getRowIndex() && j == this.getStartPosition().getColumnIndex()) {
+                    System.out.print(" \u001b[46m"+"S");
+                } else if (i == this.getGoalPosition().getRowIndex() && j == this.getGoalPosition().getColumnIndex()) {
+                    System.out.print(" \u001b[46m"+"E");
+                } else if ( this.maze[i][j] == 1) {
+                    System.out.print(" \u001b[40m ");
+                }
+                else {
+                    for(int x=0 ;x<mysol2.getSolutionPath().size() ;x++){
+                        AState try2 = mysol2.getSolutionPath().get(x);
+                        MazeState tryM = (MazeState) try2;
+                        if(tryM.getPosition().getRowIndex() ==i && tryM.getPosition().getColumnIndex()==j) {
+                            System.out.print(" \u001b[43m ");
+                            break;
+                        }
+                        else if(x==mysol2.getSolutionPath().size()-1)
+                            System.out.print(" \u001b[107m ");
+                    }
+
+                }
+            }
+
+            System.out.println(" \u001b[107m");
+        }
+        System.out.println("");
+        System.out.println();
+    }
 
 }

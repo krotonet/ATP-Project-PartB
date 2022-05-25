@@ -7,10 +7,6 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
         this.numOfNodes=0;
     }
 
-    public void addNode(){
-        this.numOfNodes++;
-    }
-
     public String getNumberOfNodesEvaluated(){
         return String.valueOf(this.numOfNodes);
     }

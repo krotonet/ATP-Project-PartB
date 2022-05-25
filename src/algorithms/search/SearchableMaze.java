@@ -2,36 +2,41 @@ package algorithms.search;
 import algorithms.mazeGenerators.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class SearchableMaze implements ISearchable{
-    private Maze maze;
-    private AState startState;
-    private AState goalState;
-    //private boolean[][] allStates;
+    private final Maze maze;
+    private final AState startState;
+    private final AState goalState;
 
-    public SearchableMaze(Maze _maze) { //constructor
+    public SearchableMaze(Maze _maze) {
         this.maze = _maze;
-        startState = new MazeState(maze.getStartPosition());
-        goalState = new MazeState(maze.getGoalPosition());
+        startState = new MazeState(maze.getStartPosition(), null,0);
+        goalState = new MazeState(maze.getGoalPosition(), null,0);
     }
+
     public AState getStart() {
         return startState;
     }
-    public AState getEnd(){
+
+    public AState getGoal(){
         return goalState;
+    }
+
+    public Maze getMaze(){
+        return maze;
     }
 
     /********* continue **************/
 
-    public ArrayList<AState> getPossibleStates(AState curr){ //return all possible states of the current state.
-        if (curr==null)
+    public ArrayList<AState> getPossibleStates(AState currentState){ //return all possible states of the current state.
+        if (currentState==null)
             return null;
 
         ArrayList<AState> possibleStates = new ArrayList<AState>();
+        MazeState mazeState;
+        mazeState = (MazeState) currentState;
 
-        Position pPosition = curr.getPosition();
+        Position pPosition = mazeState.getPosition();
         int currentRow = pPosition.getRowIndex();
         int currentColumn = pPosition.getColumnIndex();
 
@@ -40,49 +45,60 @@ public class SearchableMaze implements ISearchable{
 
         //left -> column - 1
         if(IsFree(maze, currentRow, currentColumn, 1)) { //go right
-            possibleStates.add(new MazeState(new Position(currentRow, currentColumn + 1)));
+            possibleStates.add(createNewAState(currentRow, currentColumn + 1,  currentState,1));
             rightUpCorner = true;
             if(IsFree(maze, currentRow, currentColumn, 5)) { //right->up/up->right corner -> column + 1 && row - 1
-                possibleStates.add(new MazeState(new Position(currentRow - 1, currentColumn + 1)));
+                possibleStates.add(createNewAState(currentRow - 1, currentColumn + 1,  currentState,5));
             }
             if(IsFree(maze, currentRow, currentColumn, 6)) { //right->down/down->right corner -> column + 1 && row + 1
-                possibleStates.add(new MazeState(new Position(currentRow + 1, currentColumn + 1)));
+                possibleStates.add(createNewAState(currentRow + 1, currentColumn + 1,  currentState,5));
             }
 
         }
         if(IsFree(maze, currentRow, currentColumn, 3)) { //go left
-            possibleStates.add(new MazeState(new Position(currentRow, currentColumn - 1)));
+            possibleStates.add(createNewAState(currentRow, currentColumn - 1,  currentState,3));
             leftUpCorner = true;
             if(IsFree(maze, currentRow , currentColumn, 7)) { //left->up/up->left corner -> column + 1 && row - 1
-                possibleStates.add(new MazeState(new Position(currentRow - 1, currentColumn - 1)));
+                possibleStates.add(createNewAState(currentRow - 1, currentColumn - 1,  currentState,7));
             }
             if(IsFree(maze, currentRow , currentColumn, 8)) { //left->down/down->left corner -> column + 1 && row - 1
-                possibleStates.add(new MazeState(new Position(currentRow + 1, currentColumn - 1)));
+                possibleStates.add(createNewAState(currentRow + 1, currentColumn - 1,  currentState,8));
             }
         }
 
         if(IsFree(maze, currentRow, currentColumn, 4)) { //go down
-            possibleStates.add(new MazeState(new Position(currentRow + 1,currentColumn)));
+            possibleStates.add(createNewAState(currentRow + 1, currentColumn,  currentState,4));
             if(!rightUpCorner && IsFree(maze, currentRow, currentColumn, 6)) { //right->down/down->right corner -> column + 1 && row + 1
-                possibleStates.add(new MazeState(new Position(currentRow + 1, currentColumn + 1)));
+                possibleStates.add(createNewAState(currentRow + 1, currentColumn + 1,  currentState,6));
             }
             if(!leftUpCorner && IsFree(maze, currentRow , currentColumn, 8)) { //left->down/down->left corner -> column + 1 && row - 1
-                possibleStates.add(new MazeState(new Position(currentRow + 1, currentColumn - 1)));
+                possibleStates.add(createNewAState(currentRow + 1, currentColumn - 1,  currentState,8));
             }
         }
 
         if(IsFree(maze, currentRow, currentColumn, 2)) { //go up
-            possibleStates.add(new MazeState(new Position(currentRow - 1, currentColumn)));
+            possibleStates.add(createNewAState(currentRow - 1, currentColumn,  currentState,2));
             if(!leftUpCorner && IsFree(maze, currentRow , currentColumn, 7)) { //left->up/up->left corner -> column + 1 && row - 1
-                possibleStates.add(new MazeState(new Position(currentRow - 1, currentColumn - 1)));
+                possibleStates.add(createNewAState(currentRow - 1, currentColumn - 1,  currentState,7));
             }
             if(!rightUpCorner && IsFree(maze, currentRow , currentColumn, 5)) { //left->up/up->left corner -> column + 1 && row - 1
-                possibleStates.add(new MazeState(new Position(currentRow - 1, currentColumn + 1)));
+                possibleStates.add(createNewAState(currentRow - 1, currentColumn + 1,  currentState,5));
             }
         }
 
         return possibleStates;
     }
+
+    public AState createNewAState(int row, int column, AState currentState, int fatherPosition){
+        Position newPosition = new Position(row, column);
+        int cost = 0;
+        if(fatherPosition >= 1 && fatherPosition <= 4)//direct father
+            cost = 10;
+        else//diagonal father
+            cost = 15;
+        return new MazeState(newPosition, currentState, cost);
+    }
+
     public boolean IsFree(Maze maze, int row, int column, int direction){
         switch (direction){
             case 1://right
@@ -119,27 +135,6 @@ public class SearchableMaze implements ISearchable{
 
         }
         return false;
-    }
-
-
-
-    public void addToList(ArrayList<AState> possibleStates,AState curr,int row,int col){
-        if(curr==null)
-            return;
-        possibleStates.add(new MazeState(new Position(curr.getPosition().getRowIndex() + row,curr.getPosition().getColumnIndex() +col)));
-    }
-
-    public int getRowMaze(){
-        return maze.getRows();
-    }
-    public int getColMaze(){
-        return maze.getColumns();
-    }
-
-
-
-    public Maze getMaze(){
-        return maze;
     }
 
 }

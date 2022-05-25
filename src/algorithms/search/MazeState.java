@@ -3,26 +3,32 @@ package algorithms.search;
 import algorithms.mazeGenerators.Position;
 
 public class MazeState extends AState{
+    protected Position position;
 
-    public MazeState(Position pos){
-        super(pos);
+    public MazeState(Position pos, AState foundBy, int cost){
+        this.position = pos;
+        this.foundBy = foundBy;
+        this.cost = cost;
     }
 
-    public String toString(){
-        String s="";
-        s+=this.position.toString();
-        s+= ",cost: " + this.getCost() + ".";
-        return s;
+    public Position getPosition(){
+        return this.position;
     }
 
-
-    public int getRowPosition(){
-        return this.position.getRowIndex();
+    @Override
+    public boolean equals(Object other) {
+        Position thisPosition = (Position) this.position;
+        MazeState otherState = (MazeState)other;
+        return thisPosition.equals(otherState.getPosition());
     }
-    public int getColumnPosition(){
-        return this.position.getColumnIndex();
+
+    @Override
+    public int hashCode() {
+        return this.position.hashCode();
     }
 
-
-
+    @Override
+    public String toString() {
+        return position.toString();
+    }
 }
