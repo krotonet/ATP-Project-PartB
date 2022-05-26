@@ -1,16 +1,13 @@
 package algorithms.search;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
     protected int numOfNodes;
     protected Queue<AState> frontier;
-    protected List<AState> solutionPath;
-
-    public ASearchingAlgorithm(){
-        this.numOfNodes=0;
-    }
+    protected HashSet<AState> solutionPath;
 
     public Solution solve(ISearchable domain) {
         this.frontier.add(domain.getStart());
@@ -29,6 +26,7 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
             for(AState possibleNeighbor : neighbors){
                 if(!solutionPath.contains(possibleNeighbor) && !frontier.contains(possibleNeighbor)){
                     this.frontier.add(possibleNeighbor);
+                    this.solutionPath.add(possibleNeighbor);
                 }
             }
         }

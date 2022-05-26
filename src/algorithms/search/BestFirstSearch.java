@@ -1,13 +1,14 @@
 package algorithms.search;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 
-public class BestFirstSearch extends ASearchingAlgorithm{
+public class BestFirstSearch extends BreadthFirstSearch{
 
     public BestFirstSearch() {
-        this.frontier = new PriorityQueue<>(new costComparator());
-        this.solutionPath = new ArrayList<>();
+        this.numOfNodes = 0;
+        this.frontier = new PriorityQueue<>(1, new costComparator());
+        this.solutionPath = new HashSet<>();
     }
 
     @Override

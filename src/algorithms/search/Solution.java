@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Solution {
-    private final ArrayList<AState> finalSolution;
+    public final ArrayList<AState> finalSolution;
 
     public Solution(AState finalState){
         finalSolution = new ArrayList<AState>();
         createSolution(finalState);
     }
 
+    public int getFinalSolutionSize(){
+        return this.finalSolution.size();
+    }
     public ArrayList<AState> getSolutionPath(){
         return finalSolution;
     }
