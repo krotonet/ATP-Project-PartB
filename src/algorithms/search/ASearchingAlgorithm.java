@@ -7,7 +7,7 @@ import java.util.Queue;
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
     protected int numOfNodes;
     protected Queue<AState> frontier;
-    protected HashSet<AState> solutionPath;
+    protected HashSet<AState> visitedStates;
 
     public Solution solve(ISearchable domain) {
         this.frontier.add(domain.getStart());
@@ -17,20 +17,20 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
                 break;
             }
             AState currentState = this.frontier.poll();
-            this.solutionPath.add(currentState);
+//            this.solutionPath.add(currentState);
             if(currentState.equals(domain.getGoal())){
                 solution = new Solution(currentState);
                 break;
             }
             List<AState> neighbors = domain.getPossibleStates(currentState);
             for(AState possibleNeighbor : neighbors){
-                if(!solutionPath.contains(possibleNeighbor) && !frontier.contains(possibleNeighbor)){
+                if(!visitedStates.contains(possibleNeighbor) && !frontier.contains(possibleNeighbor)){
                     this.frontier.add(possibleNeighbor);
-                    this.solutionPath.add(possibleNeighbor);
+                    this.visitedStates.add(possibleNeighbor);
                 }
             }
         }
-        this.numOfNodes = this.solutionPath.size();
+        this.numOfNodes = this.visitedStates.size();
         return solution;
     }
 

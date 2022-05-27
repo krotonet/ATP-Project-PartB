@@ -8,7 +8,7 @@ public class BestFirstSearch extends BreadthFirstSearch{
     public BestFirstSearch() {
         this.numOfNodes = 0;
         this.frontier = new PriorityQueue<>(1, new costComparator());
-        this.solutionPath = new HashSet<>();
+        this.visitedStates = new HashSet<>();
     }
 
     @Override
