@@ -109,6 +109,7 @@ public class SearchableMaze implements ISearchable{
 //        boolean rightUpCorner = false;
 //        boolean leftUpCorner = false;
 
+
         //left -> column - 1
         if(IsFree(maze, currentRow, currentColumn, 1)) { //go right
             possibleStates.add(createNewAState(currentRow, currentColumn + 1,  currentState,1));
@@ -130,16 +131,7 @@ public class SearchableMaze implements ISearchable{
             if(IsFree(maze, currentRow , currentColumn, 8)) { //left->down/down->left corner -> column + 1 && row - 1
                 possibleStates.add(createNewAState(currentRow + 1, currentColumn - 1,  currentState,8));
             }
-        }
 
-        if(IsFree(maze, currentRow, currentColumn, 4)) { //go down
-            possibleStates.add(createNewAState(currentRow + 1, currentColumn,  currentState,4));
-            if(IsFree(maze, currentRow, currentColumn, 6)) { //right->down/down->right corner -> column + 1 && row + 1
-                possibleStates.add(createNewAState(currentRow + 1, currentColumn + 1,  currentState,6));
-            }
-            if(IsFree(maze, currentRow , currentColumn, 8)) { //left->down/down->left corner -> column + 1 && row - 1
-                possibleStates.add(createNewAState(currentRow + 1, currentColumn - 1,  currentState,8));
-            }
         }
 
         if(IsFree(maze, currentRow, currentColumn, 2)) { //go up
@@ -151,6 +143,17 @@ public class SearchableMaze implements ISearchable{
                 possibleStates.add(createNewAState(currentRow - 1, currentColumn + 1,  currentState,5));
             }
         }
+        if(IsFree(maze, currentRow, currentColumn, 4)) { //go down
+            possibleStates.add(createNewAState(currentRow + 1, currentColumn,  currentState,4));
+            if(IsFree(maze, currentRow, currentColumn, 6)) { //right->down/down->right corner -> column + 1 && row + 1
+                possibleStates.add(createNewAState(currentRow + 1, currentColumn + 1,  currentState,6));
+            }
+            if(IsFree(maze, currentRow , currentColumn, 8)) { //left->down/down->left corner -> column + 1 && row - 1
+                possibleStates.add(createNewAState(currentRow + 1, currentColumn - 1,  currentState,8));
+            }
+        }
+
+
 
         return possibleStates;
     }
@@ -162,10 +165,12 @@ public class SearchableMaze implements ISearchable{
 
         Position pPosition = mazeState.getPosition();
         if ((pPosition.getColumnIndex() == column) || (pPosition.getRowIndex() == row)) {
-            cost = currentState.getCost() + 10;
+            cost=10;
+            //cost = currentState.getCost() + 10;
         }
         else {
-            cost = mazeState.getCost() + 15;
+            cost=15;
+            //cost = currentState.getCost() + 15;
         }
         return new MazeState(newPosition, currentState, cost);
     }

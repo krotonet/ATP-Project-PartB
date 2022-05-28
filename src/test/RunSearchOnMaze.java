@@ -61,13 +61,13 @@ public class RunSearchOnMaze {
                     ", solution size: " + solutionSize[2] + ", cost: " + solutionCost[2] + "\n");
             j = 0;
         }
-        int min = Math.min(Integer.parseInt(evaluated[0]),Integer.parseInt(evaluated[1]));
-        min = Math.min(min,Integer.parseInt(evaluated[2]));
-        for(int i=0;i<3;i++){
-            if(min == Integer.parseInt(evaluated[i]))
-                bestSolution[i]++;
-        }
-        System.out.println("Breadth " + bestSolution[0] + "Depth " + bestSolution[0] + "Best " + bestSolution[2]);
+//        int min = Math.min(Integer.parseInt(evaluated[0]),Integer.parseInt(evaluated[1]));
+//        min = Math.min(min,Integer.parseInt(evaluated[2]));
+//        for(int i=0;i<3;i++){
+//            if(min == Integer.parseInt(evaluated[i]))
+//                bestSolution[i]++;
+//        }
+//        System.out.println("Breadth: " + bestSolution[0] + " Depth: " + bestSolution[1] + " Best: " + bestSolution[2]);
     }
     private static void solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
 //Solve a searching problem with a searcher

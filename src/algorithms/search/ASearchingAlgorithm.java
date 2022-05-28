@@ -17,7 +17,6 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
                 break;
             }
             AState currentState = this.frontier.poll();
-//            this.solutionPath.add(currentState);
             if(currentState.equals(domain.getGoal())){
                 solution = new Solution(currentState);
                 break;
