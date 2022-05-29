@@ -13,7 +13,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
 
     @Override
     public String getName() {
-        return "Breath First Search";
+        return "BreathFirstSearch";
     }
 
 }
