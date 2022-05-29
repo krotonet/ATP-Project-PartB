@@ -7,7 +7,7 @@ public class Solution {
     public final ArrayList<AState> finalSolution;
 
     public Solution(AState finalState){
-        finalSolution = new ArrayList<AState>();
+        finalSolution = new ArrayList<>();
         createSolution(finalState);
     }
 

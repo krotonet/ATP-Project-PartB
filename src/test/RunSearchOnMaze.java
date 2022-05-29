@@ -29,12 +29,11 @@
 //    }
 //}
 package test;
-        import algorithms.mazeGenerators.IMazeGenerator;
-        import algorithms.mazeGenerators.Maze;
-        import algorithms.mazeGenerators.MyMazeGenerator;
-        import algorithms.search.*;
-        import java.util.ArrayList;
-        import java.util.List;
+import algorithms.mazeGenerators.IMazeGenerator;
+import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.search.*;
+import java.util.ArrayList;
 
 public class RunSearchOnMaze {
     static String[] evaluated = new String[3];
@@ -74,7 +73,7 @@ public class RunSearchOnMaze {
         Solution solution = searcher.solve(domain);
         evaluated[j] = searcher.getNumberOfNodesEvaluated();
         solutionSize[j] = solution.getFinalSolutionSize();
-        System.out.println(String.format("'%s' algorithm - nodes evaluated:%s", searcher.getName(), searcher.getNumberOfNodesEvaluated()));
+        System.out.println(String.format("'%s' algorithm - nodes evaluated:%s - cost:%d", searcher.getName(), searcher.getNumberOfNodesEvaluated(), domain.getGoal().getCost()));
 //Printing Solution Path
         //******************************** delete //******************************** delete
 

@@ -12,6 +12,10 @@ public abstract class AState {
         foundBy = null;
     }
 
+    public void setFoundBy(AState foundBy) {
+        this.foundBy = foundBy;
+    }
+
     public AState getFoundBy(){
         return foundBy;
     }

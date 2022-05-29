@@ -1,8 +1,5 @@
 package algorithms.mazeGenerators;
 
-
-import static java.lang.System.currentTimeMillis;
-
 public abstract class AMazeGenerator implements IMazeGenerator{
     public abstract Maze generate(int row, int column);
 

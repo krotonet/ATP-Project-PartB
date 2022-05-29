@@ -14,39 +14,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
         this.openList = new Stack<>();
     }
 
-//    @Override
-    public Solution solve1(ISearchable domain) {
-        if (domain == null)
-            return null;
-        boolean solved = false;
-        Solution solution = null;
-
-        openList.add(domain.getStart());
-        this.visited.add(domain.getStart());
-
-        while (!openList.isEmpty() && !solved){
-            AState current = openList.pop();
-            ArrayList<AState> Neighbors = domain.getPossibleStates(current);
-
-            for (AState currNeighbor : Neighbors) {
-                if (!openList.contains(currNeighbor) && !this.visited.contains(currNeighbor)) {
-                    this.visited.add(current);//set visited
-                    openList.push(currNeighbor); //add neighbors to open list
-                }
-
-                if (currNeighbor.equals(domain.getGoal())) {
-                    solution = new Solution(currNeighbor);
-                    solved = true;
-                    break;
-                }
-            }
-        }
-        this.numOfNodes = this.visited.size();
-
-        return solution;
-    }
-
-
+    @Override
     public Solution solve(ISearchable domain) {
         ArrayList<AState> neighbors;
         Solution solution = null;
@@ -58,11 +26,12 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
             AState current = this.openList.pop();
 
             if (current.equals(domain.getGoal())) {
+                domain.getGoal().cost = current.getCost();
                 solution = new Solution(current);
                 break;
             }
 
-            neighbors = domain.getPossibleStates(current);
+            neighbors = domain.getAllPossibleStates(current);
             for(AState possibleNeighbor : neighbors){
                 if(!this.visited.contains(possibleNeighbor)) {
                     this.visited.add(possibleNeighbor);

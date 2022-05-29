@@ -6,18 +6,18 @@ public class EmptyMazeGenerator extends AMazeGenerator{
     @Override
     public Maze generate(int rows, int columns) {
         Maze maze = new Maze(rows,columns);
-        maze.setMaze(0);
+        maze.initializeMaze(0);
         Random random = new Random();
-        int rowP = random.nextInt(rows);
-        int colP = random.nextInt(columns);
+        int positionRow = random.nextInt(rows);
+        int positionColumn = random.nextInt(columns);
 
-        maze.setStartPosition(new Position(rowP,colP));
-        while(rowP == maze.getStartPosition().getRowIndex() && colP == maze.getStartPosition().getColumnIndex())
+        maze.setStartPosition(new Position(positionRow,positionColumn));
+        while(positionRow == maze.getStartPosition().getRowIndex() && positionColumn == maze.getStartPosition().getColumnIndex())
         {
-            rowP = random.nextInt(rows);
-            colP = random.nextInt(columns);
+            positionRow = random.nextInt(rows);
+            positionColumn = random.nextInt(columns);
         }
-        maze.setEndPosition(new Position(rowP,colP));
+        maze.setEndPosition(new Position(positionRow,positionColumn));
 
         return maze;
     }
