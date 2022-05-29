@@ -22,9 +22,9 @@ public class BestFirstSearchTest {
         Maze maze = mg.generate(5, 5);
         DFSMaze = new SearchableMaze(maze);
 
-        maze.initializeMaze(1);
+//        maze.initializeMaze(1);
         maze.setStartPosition(new Position(0,0));
-        maze.setEndPosition(new Position(maze.getRows() - 1, maze.getColumns() - 1));
+        maze.setGoalPosition(new Position(maze.getRows() - 1, maze.getColumns() - 1));
         for(int i = 0; i < maze.getRows(); i++){
             maze.setValue(i, 0, 0);
         }

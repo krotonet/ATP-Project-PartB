@@ -38,7 +38,6 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
                     this.frontier.add(possibleNeighbor);
                     this.visitedStates.add(possibleNeighbor);
                     counter++;
-                    possibleNeighbor.setFoundBy(currentState);
                 }
             }
         }

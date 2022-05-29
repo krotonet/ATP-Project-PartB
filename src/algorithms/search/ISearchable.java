@@ -4,7 +4,6 @@ import algorithms.mazeGenerators.*;
 import java.util.ArrayList;
 
 public interface ISearchable {
-    int lowPrice = 10, highPrice = 15;
 
     AState getStart();
 

@@ -15,7 +15,7 @@ public class SimpleMazeGenerator extends AMazeGenerator{
     public Maze generate(int rows, int columns){
         Maze myMaze = new Maze(rows,columns);
         myMaze.setStartPosition(new Position(0,0));
-        myMaze.setEndPosition(new Position(rows - 1, columns - 1));
+        myMaze.setGoalPosition(new Position(rows - 1, columns - 1));
 
         //save solution
         //maybe make the decision of which way to go randomly

@@ -11,7 +11,7 @@ public class Maze {
     private final int columns;
     private final int[][] maze;
     private Position startPosition;
-    private Position endPosition;
+    private Position goalPosition;
 
     public Maze(int rows, int columns){
         if ( rows < 2  || columns < 2 ) throw new IllegalArgumentException("Maze dimensions have to be at least 2x2");
@@ -23,6 +23,8 @@ public class Maze {
     public Maze(Maze other){
         this.rows = other.getRows();
         this.columns = other.getColumns();
+        this.startPosition = new Position(other.getStartPosition().getRowIndex(), other.getStartPosition().getColumnIndex());
+        this.goalPosition = new Position(other.getGoalPosition().getRowIndex(), other.getGoalPosition().getColumnIndex());
         this.maze = new int[this.rows][this.columns];
     }
 
@@ -46,15 +48,15 @@ public class Maze {
     }
 
     public Position getGoalPosition(){
-        return this.endPosition;
+        return this.goalPosition;
     }
 
     public void setStartPosition(Position newPosition) {
         this.startPosition = newPosition;
     }
 
-    public void setEndPosition(Position position) {
-        this.endPosition = position;
+    public void setGoalPosition(Position position) {
+        this.goalPosition = position;
     }
 
     public void setValue(int row, int col, int value){
@@ -71,7 +73,7 @@ public class Maze {
             for(int j = 0; j < this.columns; ++j) {
                 if (i == this.startPosition.getRowIndex() && j == this.startPosition.getColumnIndex()) {
                     System.out.print(" \u001B[42m "); //green-start
-                } else if (i == this.endPosition.getRowIndex() && j == this.endPosition.getColumnIndex()) {
+                } else if (i == this.goalPosition.getRowIndex() && j == this.goalPosition.getColumnIndex()) {
                     System.out.print(" \u001b[44m "); //blue-end
                 } else if (this.maze[i][j] == 1) {
                     System.out.print(" \u001b[45m "); //purple
@@ -111,7 +113,6 @@ public class Maze {
             }
             System.out.println(" \u001b[107m");
         }
-        System.out.println("");
         System.out.println();
     }
 

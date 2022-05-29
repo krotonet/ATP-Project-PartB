@@ -7,6 +7,7 @@ public class SearchableMaze implements ISearchable{
     private final Maze maze;
     private final AState startState;
     private final AState goalState;
+    int lowPrice = 10, highPrice = 15;
 
     public SearchableMaze(Maze _maze) {
         this.maze = _maze;

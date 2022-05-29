@@ -17,7 +17,7 @@ public class EmptyMazeGenerator extends AMazeGenerator{
             positionRow = random.nextInt(rows);
             positionColumn = random.nextInt(columns);
         }
-        maze.setEndPosition(new Position(positionRow,positionColumn));
+        maze.setGoalPosition(new Position(positionRow,positionColumn));
 
         return maze;
     }

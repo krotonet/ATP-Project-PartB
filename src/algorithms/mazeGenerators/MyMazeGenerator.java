@@ -31,7 +31,7 @@ public class MyMazeGenerator extends AMazeGenerator{
         cells.push(maze.getStartPosition());
 
         //add walls of starting cell to a list
-        List<Position> walls = new ArrayList<Position>();
+        List<Position> walls = new ArrayList<>();
         addCellsWalls(maze, walls, startPosition);
 
         while(!cells.isEmpty()){
@@ -58,7 +58,7 @@ public class MyMazeGenerator extends AMazeGenerator{
                 endColumn = currentCell.getColumnIndex();
             }
         }
-        maze.setEndPosition(new Position(endRow, endColumn));
+        maze.setGoalPosition(new Position(endRow, endColumn));
 
         return maze;
     }
@@ -110,26 +110,16 @@ public class MyMazeGenerator extends AMazeGenerator{
         int randomSide = random.nextInt(4) + 1;
         switch (randomSide) {
             //start from left side
-            case 1:
-                startPosition = new Position(random.nextInt(rows), 0);
-                break;
+            case 1 -> startPosition = new Position(random.nextInt(rows), 0);
 
             //start from upper side
-            case 2:
-                startPosition = new Position(0, random.nextInt(columns));
-                break;
+            case 2 -> startPosition = new Position(0, random.nextInt(columns));
 
             //start from right side
-            case 3:
-                startPosition = new Position(random.nextInt(rows), columns - 1);
-                break;
+            case 3 -> startPosition = new Position(random.nextInt(rows), columns - 1);
 
             //start from bottom
-            case 4:
-                startPosition = new Position(rows - 1, random.nextInt(columns));
-                break;
-            default:
-                randomSide = random.nextInt(5);
+            case 4 -> startPosition = new Position(rows - 1, random.nextInt(columns));
         }
         return startPosition;
     }
