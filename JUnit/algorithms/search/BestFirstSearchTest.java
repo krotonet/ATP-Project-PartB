@@ -15,7 +15,7 @@ public class BestFirstSearchTest {
 
     private static final IMazeGenerator mg = new MyMazeGenerator();
     private static final ISearchingAlgorithm bfs = new BestFirstSearch();
-    private BestFirstSearch bestFirstSearch = new BestFirstSearch();
+    private final BestFirstSearch bestFirstSearch = new BestFirstSearch();
 
     @BeforeAll
     static void beforeAll() {
@@ -23,6 +23,7 @@ public class BestFirstSearchTest {
         maze.setStartPosition(new Position(0,0));
         maze.setGoalPosition(new Position(maze.getRows()-1, maze.getColumns()-1));
         DFSMaze = new SearchableMaze(maze);
+
 
         maze.initializeMaze(1);
         maze.setStartPosition(new Position(0,0));
