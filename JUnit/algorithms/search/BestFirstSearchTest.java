@@ -9,34 +9,42 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BestFirstSearchTest {
     private static ISearchable DFSMaze;
+    private static ISearchable noDiagonalSolution;
+    private static ISearchable onlyDiagonalSolution;
+    private static ISearchable chooseDiagonal;
+    private static ISearchable twoPossibleSolutions;
 
-    private static ISearchable noDiagonalMaze;
-    private static ISearchable NoWallsOnlyDiagonal;
 
-    private static final IMazeGenerator mg = new MyMazeGenerator();
     private static final ISearchingAlgorithm bfs = new BestFirstSearch();
     private final BestFirstSearch bestFirstSearch = new BestFirstSearch();
+    private static Solution solutionPath;
+    private static Maze maze;
+
 
     @BeforeAll
     static void beforeAll() {
-        Maze maze = mg.generate(5, 5);
+        maze = new Maze(5,5);
         maze.setStartPosition(new Position(0,0));
         maze.setGoalPosition(new Position(maze.getRows()-1, maze.getColumns()-1));
-        DFSMaze = new SearchableMaze(maze);
 
-
+        //solution on the maze frontiers
         maze.initializeMaze(1);
-        maze.setStartPosition(new Position(0,0));
-        maze.setGoalPosition(new Position(maze.getRows() - 1, maze.getColumns() - 1));
         for(int i = 0; i < maze.getRows(); i++){
             maze.setValue(i, 0, 0);
         }
         for(int i = 0; i < maze.getColumns(); i++){
             maze.setValue(maze.getRows() - 1, i, 0);
         }
+        noDiagonalSolution = new SearchableMaze(maze);
 
-        noDiagonalMaze = new SearchableMaze(maze);
+        //test if algorithm chooses the diagonal
+        for(int i = 0; i < maze.getRows(); i++){
+            maze.setValue(i, i, 0);
+        }
+        chooseDiagonal = new SearchableMaze(maze);
 
+
+        //
         maze = new Maze(5,5);
         maze.initializeMaze(1);
         maze.setStartPosition(new Position(0,0));
@@ -46,9 +54,7 @@ public class BestFirstSearchTest {
                 maze.setValue(i, j, 0);
             }
         }
-        NoWallsOnlyDiagonal = new SearchableMaze(maze);
-
-
+        onlyDiagonalSolution = new SearchableMaze(maze);
     }
 
     @Test
@@ -58,20 +64,27 @@ public class BestFirstSearchTest {
 
     @Test
     void finalSolution() {
-        Solution solution = bfs.solve(DFSMaze);
-        assertNotEquals(solution.getSolutionPath(),null);
+        IMazeGenerator mg = new MyMazeGenerator();
+        maze = mg.generate(5, 5);
+        DFSMaze = new SearchableMaze(maze);
+        solutionPath = bfs.solve(DFSMaze);
+        assertNotEquals(solutionPath.getSolutionPath(),null);
     }
 
     @Test
-    void noDiagonalMazeTest() {
-        Solution solutionPath = bestFirstSearch.solve(noDiagonalMaze);
+    void noDiagonalSolutionTest() {
+        solutionPath = bestFirstSearch.solve(noDiagonalSolution);
         assertEquals(75,(solutionPath.getSolutionPath().get(solutionPath.getSolutionPath().size() - 1).getCost()));
     }
 
     @Test
     void NoWallsDiagonalSolution() {
-        Solution solutionPath = bestFirstSearch.solve(NoWallsOnlyDiagonal);
+        solutionPath = bestFirstSearch.solve(onlyDiagonalSolution);
         assertEquals(60,(solutionPath.getSolutionPath().get(solutionPath.getSolutionPath().size() - 1).getCost()));
     }
-
+    @Test
+    void chooseDiagonal() {
+        solutionPath = bestFirstSearch.solve(chooseDiagonal);
+        assertEquals(45,(solutionPath.getSolutionPath().get(4).getCost()));
+    }
 }
