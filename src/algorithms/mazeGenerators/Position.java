@@ -24,6 +24,11 @@ public class Position {
         return "{" + this.row + "," + this.column + "}";
     }
 
+    /**
+     * compare row and col of two positions.
+     * @param o
+     * @return true if they have the same row and col.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

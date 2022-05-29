@@ -10,9 +10,9 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
     protected HashSet<AState> visitedStates;
 
     /**
-     *
+     * search for a solution based on bfs algorithm
      * @param domain, problem adapted for search algorithm
-     * @return
+     * @return Solution -list of all states
      */
     public Solution solve(ISearchable domain) {
 

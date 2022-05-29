@@ -14,6 +14,11 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
         this.openList = new Stack<>();
     }
 
+    /**
+     * search for a solution based on dfs algorithm
+     * @param domain, problem adapted for search algorithm
+     * @return Solution -list of all states
+     */
     @Override
     public Solution solve(ISearchable domain) {
         ArrayList<AState> neighbors;

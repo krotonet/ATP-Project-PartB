@@ -13,6 +13,7 @@ public class Maze {
     private Position startPosition;
     private Position goalPosition;
 
+    //constructor
     public Maze(int rows, int columns){
         if ( rows < 2  || columns < 2 ) throw new IllegalArgumentException("Maze dimensions have to be at least 2x2");
         this.rows = rows;
@@ -20,6 +21,7 @@ public class Maze {
         this.maze = new int[rows][columns];
     }
 
+    //copy constructor
     public Maze(Maze other){
         this.rows = other.getRows();
         this.columns = other.getColumns();
@@ -28,6 +30,10 @@ public class Maze {
         this.maze = new int[this.rows][this.columns];
     }
 
+    /**
+     * change each cell of the maze to the given value.
+     * @param value
+     */
     public void initializeMaze(int value){
         if (!(value == 0  || value == 1)) throw new IllegalArgumentException("Maze value can only be 0 or 1");
         for(int[] array : this.maze){

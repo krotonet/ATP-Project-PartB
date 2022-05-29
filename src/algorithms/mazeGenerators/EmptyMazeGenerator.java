@@ -3,6 +3,13 @@ package algorithms.mazeGenerators;
 import java.util.Random;
 
 public class EmptyMazeGenerator extends AMazeGenerator{
+
+    /**
+     * create an empty maze with no walls at all.
+     * @param rows
+     * @param columns
+     * @return generated empty maze
+     */
     @Override
     public Maze generate(int rows, int columns) {
         Maze maze = new Maze(rows,columns);
