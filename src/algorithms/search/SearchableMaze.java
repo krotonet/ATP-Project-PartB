@@ -9,8 +9,8 @@ public class SearchableMaze implements ISearchable{
     private final AState goalState;
     int lowPrice = 10, highPrice = 15;
 
-    public SearchableMaze(Maze _maze) {
-        this.maze = _maze;
+    public SearchableMaze(Maze maze) {
+        this.maze = maze;
         startState = new MazeState(maze.getStartPosition(), null,0);
         goalState = new MazeState(maze.getGoalPosition(), null,0);
     }

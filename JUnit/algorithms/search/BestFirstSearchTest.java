@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BestFirstSearchTest {
     private static ISearchable DFSMaze;
     private static ISearchable noDiagonalSolution;
-    private static ISearchable onlyDiagonalSolution;
+    private static ISearchable chooseDiagonalOnEmptyMaze;
     private static ISearchable chooseDiagonal;
     private static ISearchable twoPossibleSolutions;
 
@@ -44,7 +44,6 @@ public class BestFirstSearchTest {
         chooseDiagonal = new SearchableMaze(maze);
 
 
-        //
         maze = new Maze(5,5);
         maze.initializeMaze(1);
         maze.setStartPosition(new Position(0,0));
@@ -54,7 +53,9 @@ public class BestFirstSearchTest {
                 maze.setValue(i, j, 0);
             }
         }
-        onlyDiagonalSolution = new SearchableMaze(maze);
+        chooseDiagonalOnEmptyMaze = new SearchableMaze(maze);
+
+        twoPossibleSolutions = new SearchableMaze(maze);
     }
 
     @Test
@@ -78,13 +79,18 @@ public class BestFirstSearchTest {
     }
 
     @Test
-    void NoWallsDiagonalSolution() {
-        solutionPath = bestFirstSearch.solve(onlyDiagonalSolution);
+    void chooseDiagonalOnEmptyMazeTest() {
+        solutionPath = bestFirstSearch.solve(chooseDiagonalOnEmptyMaze);
         assertEquals(60,(solutionPath.getSolutionPath().get(solutionPath.getSolutionPath().size() - 1).getCost()));
     }
     @Test
-    void chooseDiagonal() {
+    void chooseDiagonalTest() {
         solutionPath = bestFirstSearch.solve(chooseDiagonal);
         assertEquals(45,(solutionPath.getSolutionPath().get(4).getCost()));
+    }
+
+    @Test
+    void twoPossibleSolutionsTest() {
+
     }
 }
