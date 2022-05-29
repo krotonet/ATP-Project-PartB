@@ -5,14 +5,18 @@ import algorithms.mazeGenerators.Position;
 public class MazeState extends AState{
     protected Position position;
 
-    public MazeState(Position pos, AState foundBy, int cost){
+    public MazeState(Position pos, AState foundBy){
         this.position = pos;
         this.foundBy = foundBy;
-        this.cost = cost;
+        this.cost = 0;
     }
 
     public Position getPosition(){
         return this.position;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 
     @Override
@@ -31,4 +35,5 @@ public class MazeState extends AState{
     public String toString() {
         return position.toString();
     }
+
 }

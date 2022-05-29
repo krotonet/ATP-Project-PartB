@@ -25,7 +25,7 @@ public class MyMazeGenerator extends AMazeGenerator{
 
         //draw starting position on any spot on the grid
         maze.setStartPosition(startPosition);
-        maze.setValue(startPosition.getRowIndex(),startPosition.getColumnIndex(),0);
+        maze.breakWall(startPosition.getRowIndex(),startPosition.getColumnIndex());
         //push starting cell to the stack
         Stack<Position> cells = new Stack<>();
         cells.push(maze.getStartPosition());
@@ -48,11 +48,11 @@ public class MyMazeGenerator extends AMazeGenerator{
                 Position unvisited = getRandomWall(neighbors);
                 //break wall between current and the next cell
                 breakWall(maze, currentCell, unvisited);
-                maze.setValue(unvisited.getRowIndex(), unvisited.getColumnIndex(), 0);
+                maze.breakWall(unvisited.getRowIndex(), unvisited.getColumnIndex());
                 cells.push(unvisited);
             }
             //finding the end position
-            if (cells.size() > maxStackSize && isFrontier(maze, currentCell.getRowIndex(), currentCell.getColumnIndex())) {
+            if (cells.size() > maxStackSize && isFrontier(maze, currentCell) && !currentCell.equals(startPosition)) {
                 maxStackSize = cells.size();
                 endRow = currentCell.getRowIndex();
                 endColumn = currentCell.getColumnIndex();
@@ -66,12 +66,13 @@ public class MyMazeGenerator extends AMazeGenerator{
     /**
      *
      * @param maze, current maze
-     * @param row
-     * @param col
+     * @param currentCell , to compare with
      * @return boolean, true if position {row,col}
      */
-    public boolean isFrontier(Maze maze, int row, int col){
-        return row == maze.getRows() - 1 || row == 0 || col == maze.getColumns() - 1 || col == 0;
+    public boolean isFrontier(Maze maze, Position currentCell){
+        boolean rowComparison = currentCell.getRowIndex() == maze.getRows() - 1 || currentCell.getRowIndex() == 0;
+        boolean colComparison = currentCell.getColumnIndex() == maze.getColumns() - 1 || currentCell.getColumnIndex() == 0;
+        return rowComparison || colComparison;
     }
 
     /**
@@ -85,17 +86,17 @@ public class MyMazeGenerator extends AMazeGenerator{
         if(nextCell.getRowIndex() == currentCell.getRowIndex()){
             //check if the move was to go right, else left
             if(nextCell.getColumnIndex() - currentCell.getColumnIndex() > 0)
-                maze.setValue(currentCell.getRowIndex(), currentCell.getColumnIndex() + 1, 0);
+                maze.breakWall(currentCell.getRowIndex(), currentCell.getColumnIndex() + 1);
             else
-                maze.setValue(currentCell.getRowIndex(), currentCell.getColumnIndex() - 1, 0);
+                maze.breakWall(currentCell.getRowIndex(), currentCell.getColumnIndex() - 1);
         }
         //move on the same column
         else{
             //check if the move was to go up, else down
             if(currentCell.getRowIndex() - nextCell.getRowIndex() > 0)
-                maze.setValue(currentCell.getRowIndex() - 1, currentCell.getColumnIndex(), 0);
+                maze.breakWall(currentCell.getRowIndex() - 1, currentCell.getColumnIndex());
             else
-                maze.setValue(currentCell.getRowIndex() + 1, currentCell.getColumnIndex(), 0);
+                maze.breakWall(currentCell.getRowIndex() + 1, currentCell.getColumnIndex());
         }
     }
 

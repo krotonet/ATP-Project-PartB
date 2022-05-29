@@ -59,9 +59,12 @@ public class Maze {
         this.goalPosition = position;
     }
 
-    public void setValue(int row, int col, int value){
-        if ( !( value == 0  || value == 1) ) throw new IllegalArgumentException("Maze value can only be 0 or 1");
-        this.maze[row][col] = value;
+    public void breakWall(int row, int columns){
+        this.maze[row][columns] = 0;
+    }
+
+    public void buildWall(int row, int columns){
+        this.maze[row][columns] = 1;
     }
 
     public int getValue(int row, int col){

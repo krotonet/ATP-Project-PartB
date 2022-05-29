@@ -11,8 +11,8 @@ public class SearchableMaze implements ISearchable{
 
     public SearchableMaze(Maze maze) {
         this.maze = maze;
-        startState = new MazeState(maze.getStartPosition(), null,0);
-        goalState = new MazeState(maze.getGoalPosition(), null,0);
+        startState = new MazeState(maze.getStartPosition(), null);
+        goalState = new MazeState(maze.getGoalPosition(), null);
     }
 
     public AState getStart() {
@@ -95,7 +95,9 @@ public class SearchableMaze implements ISearchable{
      */
     public AState createNewAState(int row, int column, AState currentState, int cost){
         Position newPosition = new Position(row, column);
-        return new MazeState(newPosition, currentState, currentState.getCost() + cost);
+        MazeState newMazeState = new MazeState(newPosition, currentState);
+        newMazeState.setCost(currentState.getCost() + cost);
+        return newMazeState;
     }
 
     /**

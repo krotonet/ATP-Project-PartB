@@ -29,10 +29,14 @@ public class SimpleMazeGenerator extends AMazeGenerator{
         //set walls in random cells
         for(int i = 0; i < rows; i ++){
             for(int j = 0; j < columns; j ++) {
-                if(myMaze.getValue(i,j) != 1)
-                    myMaze.setValue(i, j, random.nextInt(2));
+                if(myMaze.getValue(i,j) != 1) {
+                    if(random.nextInt(2) == 0)
+                        myMaze.breakWall(i, j);
+                    else
+                    myMaze.buildWall(i, j);
+                }
                 else
-                    myMaze.setValue(i, j, 0);
+                    myMaze.breakWall(i, j);
             }
         }
         return myMaze;
@@ -50,24 +54,24 @@ public class SimpleMazeGenerator extends AMazeGenerator{
         int decision = random.nextInt(10);
         while(currentColumn != maze.getColumns() && currentRow != maze.getRows()){
             if(decision % 2 == 0){//move row + 1
-                maze.setValue(currentRow++,currentColumn,1);
+                maze.buildWall(currentRow++,currentColumn);
                 if(currentRow + 1 < maze.getRows())
-                    maze.setValue(currentRow++,currentColumn,1);
+                    maze.buildWall(currentRow++,currentColumn);
             }
             else {
                 if(currentColumn + 1 < maze.getColumns())
-                    maze.setValue(currentRow, currentColumn++, 1);
+                    maze.buildWall(currentRow, currentColumn++);
             }
             decision = random.nextInt(10);
         }
 
         //if path didn't end in the end row position
         while(currentRow != maze.getRows()){
-            maze.setValue(currentRow++, currentColumn - 1, 1);
+            maze.buildWall(currentRow++, currentColumn - 1);
         }
         //getting column end position
         while(currentColumn != maze.getColumns()){
-            maze.setValue(currentRow - 1, currentColumn++, 1);
+            maze.buildWall(currentRow - 1, currentColumn++);
         }
     }
 }
