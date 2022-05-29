@@ -46,7 +46,7 @@ public class RunSearchOnMaze {
         IMazeGenerator mg = new MyMazeGenerator();
         int n = 1;
         for(int i = 0; i<n;i++) {
-            Maze maze = mg.generate(20, 20);
+            Maze maze = mg.generate(5, 5);
             SearchableMaze searchableMaze = new SearchableMaze(maze);
             solveProblem(searchableMaze, new BreadthFirstSearch());
             solveProblem(searchableMaze, new DepthFirstSearch());

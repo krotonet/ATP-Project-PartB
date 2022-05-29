@@ -11,18 +11,20 @@ public class BestFirstSearchTest {
     private static ISearchable DFSMaze;
 
     private static ISearchable noDiagonalMaze;
-    private static ISearchable onlyDiagonalMaze;
-    private static ISearchable oneDiagonalOneLSolution;
+    private static ISearchable NoWallsOnlyDiagonal;
 
     private static final IMazeGenerator mg = new MyMazeGenerator();
     private static final ISearchingAlgorithm bfs = new BestFirstSearch();
+    private BestFirstSearch bestFirstSearch = new BestFirstSearch();
 
     @BeforeAll
     static void beforeAll() {
         Maze maze = mg.generate(5, 5);
+        maze.setStartPosition(new Position(0,0));
+        maze.setGoalPosition(new Position(maze.getRows()-1, maze.getColumns()-1));
         DFSMaze = new SearchableMaze(maze);
 
-//        maze.initializeMaze(1);
+        maze.initializeMaze(1);
         maze.setStartPosition(new Position(0,0));
         maze.setGoalPosition(new Position(maze.getRows() - 1, maze.getColumns() - 1));
         for(int i = 0; i < maze.getRows(); i++){
@@ -31,15 +33,19 @@ public class BestFirstSearchTest {
         for(int i = 0; i < maze.getColumns(); i++){
             maze.setValue(maze.getRows() - 1, i, 0);
         }
+
         noDiagonalMaze = new SearchableMaze(maze);
 
-
+        maze = new Maze(5,5);
+        maze.initializeMaze(1);
+        maze.setStartPosition(new Position(0,0));
+        maze.setGoalPosition(new Position(maze.getRows()-1, maze.getColumns()-1));
         for (int i = 0; i < maze.getRows(); i++){
             for (int j = 0; j < maze.getColumns(); j++){
                 maze.setValue(i, j, 0);
             }
         }
-        oneDiagonalOneLSolution = new SearchableMaze(maze);
+        NoWallsOnlyDiagonal = new SearchableMaze(maze);
 
 
     }
@@ -57,14 +63,14 @@ public class BestFirstSearchTest {
 
     @Test
     void noDiagonalMazeTest() {
-        Solution solutionPath = new Solution(noDiagonalMaze.getStart());
-        assertEquals(80,(solutionPath.getSolutionPath().get(4).getCost()));
+        Solution solutionPath = bestFirstSearch.solve(noDiagonalMaze);
+        assertEquals(75,(solutionPath.getSolutionPath().get(solutionPath.getSolutionPath().size() - 1).getCost()));
     }
 
     @Test
-    void oneDiagonalOneLSolutionTest() {
-        Solution solutionPath = new Solution(noDiagonalMaze.getStart());
-        assertEquals(60,(solutionPath.getSolutionPath().get(4).getCost()));
+    void NoWallsDiagonalSolution() {
+        Solution solutionPath = bestFirstSearch.solve(NoWallsOnlyDiagonal);
+        assertEquals(60,(solutionPath.getSolutionPath().get(solutionPath.getSolutionPath().size() - 1).getCost()));
     }
 
 }
