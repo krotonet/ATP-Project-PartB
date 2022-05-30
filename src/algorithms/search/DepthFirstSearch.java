@@ -23,7 +23,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
     public Solution solve(ISearchable domain) {
         ArrayList<AState> neighbors;
         Solution solution = null;
-
+        int countVisited = 1;
         openList.push(domain.getStart());
         visited.add(domain.getStart());
 
@@ -33,6 +33,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
             if (current.equals(domain.getGoal())) {
                 domain.getGoal().cost = current.getCost();
                 solution = new Solution(current);
+                countVisited++;
                 break;
             }
 
@@ -41,10 +42,11 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
                 if(!this.visited.contains(possibleNeighbor)) {
                     this.visited.add(possibleNeighbor);
                     openList.push(possibleNeighbor);
+                    countVisited++;
                 }
             }
         }
-        this.numOfNodes = this.visited.size();
+        this.numOfNodes = countVisited;
         return solution;
     }
 

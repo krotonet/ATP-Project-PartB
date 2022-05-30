@@ -1,5 +1,7 @@
 package algorithms.search;
-import algorithms.mazeGenerators.*;
+
+import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 
 import java.util.ArrayList;
 

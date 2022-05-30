@@ -46,7 +46,6 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
     }
 
     /**
-     *
      * @return , number of nodes the algorithm has visited
      */
     public String getNumberOfNodesEvaluated(){

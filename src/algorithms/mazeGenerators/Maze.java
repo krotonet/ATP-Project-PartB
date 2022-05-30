@@ -13,9 +13,15 @@ public class Maze {
     private Position startPosition;
     private Position goalPosition;
 
-    //constructor
+    /**
+     * constructor
+     * if any dimension lower or equal 2, we generate it as dimension 3.
+     * @param rows
+     * @param columns
+     */
     public Maze(int rows, int columns){
-        if ( rows < 2  || columns < 2 ) throw new IllegalArgumentException("Maze dimensions have to be at least 2x2");
+        if (rows <= 2) rows = 3;
+        if(columns <= 2 ) columns=3;
         this.rows = rows;
         this.columns = columns;
         this.maze = new int[rows][columns];
@@ -77,17 +83,23 @@ public class Maze {
         return this.maze[row][col];
     }
 
+    /**
+     * printing the maze in colors.
+     * green is the start position
+     * blue is goal position
+     * purple is a wall
+     */
     public void print(){
         for(int i = 0; i < this.rows; ++i) {
             for(int j = 0; j < this.columns; ++j) {
                 if (i == this.startPosition.getRowIndex() && j == this.startPosition.getColumnIndex()) {
-                    System.out.print(" \u001B[42m "); //green-start
+                    System.out.print(" \u001B[42m ");
                 } else if (i == this.goalPosition.getRowIndex() && j == this.goalPosition.getColumnIndex()) {
-                    System.out.print(" \u001b[44m "); //blue-end
+                    System.out.print(" \u001b[44m ");
                 } else if (this.maze[i][j] == 1) {
-                    System.out.print(" \u001b[45m "); //purple
+                    System.out.print(" \u001b[45m ");
                 } else {
-                    System.out.print(" \u001b[107m "); //white
+                    System.out.print(" \u001b[107m ");
                 }
             }
             System.out.println(" \u001b[107m");
@@ -95,6 +107,10 @@ public class Maze {
         System.out.println();
     }
 
+    /**
+     *
+     * @param solution , solution to color it inside the maze
+     */
     public void printMazeWithSolution(Solution solution){
 
         for(int i = 0; i < this.maze.length; ++i) {
