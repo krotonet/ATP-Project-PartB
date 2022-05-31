@@ -40,6 +40,11 @@ public class SearchableMaze implements ISearchable{
         MazeState mazeState;
         mazeState = (MazeState) currentState;
 
+        boolean rightUp = false;
+        boolean rightDown = false;
+        boolean leftUp = false;
+        boolean leftDown = false;
+
         Position pPosition = mazeState.getPosition();
         int currentRow = pPosition.getRowIndex();
         int currentColumn = pPosition.getColumnIndex();
@@ -48,39 +53,43 @@ public class SearchableMaze implements ISearchable{
             possibleStates.add(createNewAState(currentRow - 1, currentColumn,  currentState,lowPrice));
             if(IsFree(maze, currentRow , currentColumn, "LEFT-UP")) { //left->up/up->left corner -> column + 1 && row - 1
                 possibleStates.add(createNewAState(currentRow - 1, currentColumn - 1,  currentState,highPrice));
+                leftUp = true;
             }
             if(IsFree(maze, currentRow , currentColumn, "RIGHT-UP")) { //left->up/up->left corner -> column + 1 && row - 1
                 possibleStates.add(createNewAState(currentRow - 1, currentColumn + 1,  currentState,highPrice));
+                rightUp = true;
             }
         }
 
         //left -> column - 1
         if(IsFree(maze, currentRow, currentColumn, "RIGHT")) { //go right
             possibleStates.add(createNewAState(currentRow, currentColumn + 1,  currentState,lowPrice));
-            if(IsFree(maze, currentRow, currentColumn, "RIGHT-UP")) { //right->up/up->right corner -> column + 1 && row - 1
+            if(!rightUp && IsFree(maze, currentRow, currentColumn, "RIGHT-UP")) { //right->up/up->right corner -> column + 1 && row - 1
                 possibleStates.add(createNewAState(currentRow - 1, currentColumn + 1,  currentState,highPrice));
             }
             if(IsFree(maze, currentRow, currentColumn, "RIGHT-DOWN")) { //right->down/down->right corner -> column + 1 && row + 1
                 possibleStates.add(createNewAState(currentRow + 1, currentColumn + 1,  currentState,highPrice));
+                rightDown = true;
             }
         }
 
         if(IsFree(maze, currentRow, currentColumn, "DOWN")) { //go down
             possibleStates.add(createNewAState(currentRow + 1, currentColumn,  currentState,lowPrice));
-            if(IsFree(maze, currentRow, currentColumn, "RIGHT-DOWN")) { //right->down/down->right corner -> column + 1 && row + 1
+            if(!rightDown && IsFree(maze, currentRow, currentColumn, "RIGHT-DOWN")) { //right->down/down->right corner -> column + 1 && row + 1
                 possibleStates.add(createNewAState(currentRow + 1, currentColumn + 1,  currentState,highPrice));
             }
             if(IsFree(maze, currentRow , currentColumn, "LEFT-DOWN")) { //left->down/down->left corner -> column + 1 && row - 1
                 possibleStates.add(createNewAState(currentRow + 1, currentColumn - 1,  currentState,highPrice));
+                leftDown = true;
             }
         }
 
         if(IsFree(maze, currentRow, currentColumn, "LEFT")) { //go left
             possibleStates.add(createNewAState(currentRow, currentColumn - 1,  currentState,lowPrice));
-            if(IsFree(maze, currentRow , currentColumn, "LEFT-UP")) { //left->up/up->left corner -> column + 1 && row - 1
+            if(!leftUp && IsFree(maze, currentRow , currentColumn, "LEFT-UP")) { //left->up/up->left corner -> column + 1 && row - 1
                 possibleStates.add(createNewAState(currentRow - 1, currentColumn - 1,  currentState,highPrice));
             }
-            if(IsFree(maze, currentRow , currentColumn, "LEFT-DOWN")) { //left->down/down->left corner -> column + 1 && row - 1
+            if(!leftDown && IsFree(maze, currentRow , currentColumn, "LEFT-DOWN")) { //left->down/down->left corner -> column + 1 && row - 1
                 possibleStates.add(createNewAState(currentRow + 1, currentColumn - 1,  currentState,highPrice));
             }
         }

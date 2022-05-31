@@ -76,7 +76,7 @@ public class MyMazeGenerator extends AMazeGenerator{
     public boolean isFrontier(Maze maze, Position currentCell){
         boolean rowComparison = currentCell.getRowIndex() == maze.getRows() - 1 || currentCell.getRowIndex() == 0;
         boolean colComparison = currentCell.getColumnIndex() == maze.getColumns() - 1 || currentCell.getColumnIndex() == 0;
-        return rowComparison || colComparison || maze.getValue(currentCell.getRowIndex(), currentCell.getColumnIndex()) != 1;
+        return (rowComparison || colComparison) && maze.getValue(currentCell.getRowIndex(), currentCell.getColumnIndex()) != 1;
     }
 
     /**
