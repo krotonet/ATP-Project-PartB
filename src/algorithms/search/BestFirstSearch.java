@@ -7,7 +7,7 @@ public class BestFirstSearch extends BreadthFirstSearch{
 
     public BestFirstSearch() {
         this.numOfNodes = 0;
-        this.frontier = new PriorityQueue<>(1, (AState a,AState b) -> a.getCost() - b.getCost());
+        this.frontier = new PriorityQueue<>(1, AState::compareStates);
         this.visited = new HashSet<>();
     }
 
