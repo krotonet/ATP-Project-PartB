@@ -6,7 +6,6 @@ import java.util.Stack;
 
 public class DepthFirstSearch extends ASearchingAlgorithm{
     private final Stack<AState> openList;
-    private final HashSet<AState> visited;
 
     public DepthFirstSearch() {
         this.numOfNodes = 0;

@@ -38,10 +38,11 @@ public class Maze {
 
     /**
      * change each cell of the maze to the given value.
-     * @param value
+     * if value not 0 or 1, default value is 0.
+     * @param value, initialize maze with the value sent, 1 or 0 only
      */
     public void initializeMaze(int value){
-        if (!(value == 0  || value == 1)) throw new IllegalArgumentException("Maze value can only be 0 or 1");
+        if (!(value == 0  || value == 1)) value = 0;
         for(int[] array : this.maze){
             Arrays.fill(array, value);
         }

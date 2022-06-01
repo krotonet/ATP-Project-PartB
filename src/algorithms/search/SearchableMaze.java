@@ -40,10 +40,8 @@ public class SearchableMaze implements ISearchable{
         MazeState mazeState;
         mazeState = (MazeState) currentState;
 
-        boolean rightUp = false;
-        boolean rightDown = false;
-        boolean leftUp = false;
-        boolean leftDown = false;
+        boolean rightUp = false, leftUp = false;
+        boolean rightDown = false, leftDown = false;
 
         Position pPosition = mazeState.getPosition();
         int currentRow = pPosition.getRowIndex();
@@ -138,19 +136,19 @@ public class SearchableMaze implements ISearchable{
                 if(row + 1 < maze.getRows() && maze.getValue(row + 1, column) == 0) return true;
                 break;
 
-            case "RIGHT-UP":// right->up/up->right corner -> column + 1 && row -1
+            case "RIGHT-UP":// right up corner
                 if(column + 1 < maze.getColumns() && row - 1 >= 0 && maze.getValue(row - 1,column + 1) == 0) return true;
                 break;
 
-            case "RIGHT-DOWN"://2 right->down/down->right corner -> column + 1 && row + 1
+            case "RIGHT-DOWN":// right down corner
                 if(column + 1 < maze.getColumns() && row + 1 < maze.getRows() && maze.getValue(row + 1,column + 1) == 0) return true;
                 break;
 
-            case "LEFT-UP"://3 left->up/up->left corner -> row - 1 && col - 1
+            case "LEFT-UP":// left up corner
                 if(row - 1 >= 0 && column - 1 >= 0 && maze.getValue(row - 1, column - 1) == 0)return true;
                 break;
 
-            case "LEFT-DOWN"://4 left->down/down->left corner -> row + 1 && col - 1
+            case "LEFT-DOWN":// left down corner
                 if(column - 1 >= 0 && row + 1 < maze.getRows() && maze.getValue(row + 1,column - 1) == 0) return true;
                 break;
 

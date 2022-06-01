@@ -8,7 +8,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
     public BreadthFirstSearch() {
         this.numOfNodes = 0;
         this.frontier = new LinkedList<>();
-        this.visitedStates = new HashSet<>();
+        this.visited = new HashSet<>();
     }
 
     @Override

@@ -6,8 +6,8 @@ public class EmptyMazeGenerator extends AMazeGenerator{
 
     /**
      * create an empty maze with no walls at all.
-     * @param rows
-     * @param columns
+     * @param rows , of the maze generated
+     * @param columns , of the maze generated
      * @return generated empty maze
      */
     @Override

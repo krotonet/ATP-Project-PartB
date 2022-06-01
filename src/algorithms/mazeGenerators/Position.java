@@ -7,7 +7,8 @@ public class Position {
     private int column;
 
     public Position(int row, int column){
-        if ( row < 0  || column < 0 ) throw new IllegalArgumentException("Position can't be negative");
+        if ( row < 0 ) row = 0;
+        if( column < 0 ) column = 0;
         this.row = row;
         this.column = column;
     }
