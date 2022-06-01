@@ -83,13 +83,44 @@ public class Maze {
         return this.maze[row][col];
     }
 
+    public void print(){
+        String mazePlot = "{";
+        String toAdd = "";
+        for(int i = 0; i < this.rows; ++i) {
+            mazePlot += "{";
+            for(int j = 0; j < this.columns; ++j) {
+                if(this.startPosition.getRowIndex() == i && this.startPosition.getColumnIndex() == j)
+                    if (j != this.columns - 1)
+                        mazePlot += "E,";
+                    else
+                        mazePlot += "E";
+                else if(this.goalPosition.getRowIndex() == i && this.goalPosition.getColumnIndex() == j)
+                    if (j != this.columns - 1)
+                        mazePlot += "S,";
+                    else
+                        mazePlot += "S";
+                else {
+                    if (j != this.columns - 1)
+                        mazePlot += this.maze[i][j] + ",";
+                    else
+                        mazePlot += this.maze[i][j];
+                }
+            }
+            if(i != this.rows - 1)
+                mazePlot += "}\n,";
+            else
+                mazePlot += "}}";
+        }
+        System.out.println(mazePlot);
+    }
+
     /**
      * printing the maze in colors.
      * green is the start position
      * blue is goal position
      * purple is a wall
      */
-    public void print(){
+    public void coloredPrint(){
         for(int i = 0; i < this.rows; ++i) {
             for(int j = 0; j < this.columns; ++j) {
                 if (i == this.startPosition.getRowIndex() && j == this.startPosition.getColumnIndex()) {
