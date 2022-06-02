@@ -92,14 +92,14 @@ public class Maze {
             for(int j = 0; j < this.columns; ++j) {
                 if(this.startPosition.getRowIndex() == i && this.startPosition.getColumnIndex() == j)
                     if (j != this.columns - 1)
-                        mazePlot += "E,";
-                    else
-                        mazePlot += "E";
-                else if(this.goalPosition.getRowIndex() == i && this.goalPosition.getColumnIndex() == j)
-                    if (j != this.columns - 1)
                         mazePlot += "S,";
                     else
                         mazePlot += "S";
+                else if(this.goalPosition.getRowIndex() == i && this.goalPosition.getColumnIndex() == j)
+                    if (j != this.columns - 1)
+                        mazePlot += "E,";
+                    else
+                        mazePlot += "E";
                 else {
                     if (j != this.columns - 1)
                         mazePlot += this.maze[i][j] + ",";
