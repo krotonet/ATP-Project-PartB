@@ -83,36 +83,24 @@ public class Maze {
     public int getValue(int row, int col){
         return this.maze[row][col];
     }
-
     public void print(){
-        String mazePlot = "{";
-        String toAdd = "";
-        for(int i = 0; i < this.rows; ++i) {
-            mazePlot += "{";
-            for(int j = 0; j < this.columns; ++j) {
-                if(this.startPosition.getRowIndex() == i && this.startPosition.getColumnIndex() == j)
-                    if (j != this.columns - 1)
-                        mazePlot += "S,";
-                    else
-                        mazePlot += "S";
-                else if(this.goalPosition.getRowIndex() == i && this.goalPosition.getColumnIndex() == j)
-                    if (j != this.columns - 1)
-                        mazePlot += "E,";
-                    else
-                        mazePlot += "E";
+        for(int y=0;y<rows;y++){
+            for(int j=0;j<columns;j++){
+                if(y==this.startPosition.getRowIndex() && j==this.startPosition.getColumnIndex()){
+                    System.out.print("S");
+                }
+                else if(y==this.goalPosition.getRowIndex() && j==this.goalPosition.getColumnIndex()){
+                    System.out.print("E");
+                }
+                else if (getValue(y, j)==0){
+                    System.out.print("0");
+                }
                 else {
-                    if (j != this.columns - 1)
-                        mazePlot += this.maze[i][j] + ",";
-                    else
-                        mazePlot += this.maze[i][j];
+                    System.out.print(getValue(y, j));
                 }
             }
-            if(i != this.rows - 1)
-                mazePlot += "}\n,";
-            else
-                mazePlot += "}}";
+            System.out.println("");
         }
-        System.out.println(mazePlot);
     }
 
     /**
