@@ -35,10 +35,10 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
             for(AState possibleNeighbor : neighbors){
                 if(!visited.contains(possibleNeighbor) && !frontier.contains(possibleNeighbor)){
                     this.frontier.add(possibleNeighbor);
-                    this.visited.add(possibleNeighbor);
+                    this.visited.add(possibleNeighbor); 
+                    counter++;
                 }
             }
-            counter++;
 
         }
         this.numOfNodes = counter;
