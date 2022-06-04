@@ -10,6 +10,4 @@ public interface ISearchable {
     AState getGoal();
 
     ArrayList<AState> getAllPossibleStates(AState curr);
-
-    Maze getMaze();
 }
