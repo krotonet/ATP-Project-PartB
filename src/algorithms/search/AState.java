@@ -23,5 +23,7 @@ public abstract class AState {
         return 0;
     }
     public abstract boolean equals(Object other);
+    
+    public abstract int hashCode();
 
 }
