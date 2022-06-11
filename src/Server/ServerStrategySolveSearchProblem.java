@@ -2,24 +2,20 @@ package Server;
 import IO.MyCompressorOutputStream;
 import IO.MyDecompressorInputStream;
 import algorithms.mazeGenerators.Maze;
-import algorithms.search.ASearchingAlgorithm;
-import algorithms.search.ISearchable;
-import algorithms.search.SearchableMaze;
-import algorithms.search.Solution;
+import algorithms.search.*;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy{
-    public ASearchingAlgorithm algo;
-    private String tempDirectoryPath;
+    private final String tempDirectoryPath;
+    private final Configurations configurations = Configurations.getInstance();
 
 
     //constructor.
     public ServerStrategySolveSearchProblem() {
         this.tempDirectoryPath = System.getProperty("java.io.tmpdir");
-        this.algo = Configurations.mazeSearchingAlgorithm();
     }
 
     /**
@@ -32,20 +28,19 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
             ObjectOutputStream toClient = new ObjectOutputStream(outputStream);
             ObjectInputStream fromClient = new ObjectInputStream(inputStream);
 
-            Maze myMaze = (Maze)fromClient.readObject();
-            int mazeCode = myMaze.hashCode();
-            String mazeCodeS = Integer.toString(mazeCode);
+            Maze mazeToSolve = (Maze)fromClient.readObject();
 
-            Solution solve = findSolution(mazeCodeS);
+            Solution solve = findSolution(mazeToSolve);
 
             if(solve==null){ //if no solution
-                ISearchable iSearchable = new SearchableMaze(myMaze);
-                ASearchingAlgorithm algorithm = (ASearchingAlgorithm)algo.newAlgorithm();
-                solve = algorithm.solve(iSearchable);
-                save_sol(solve, mazeCodeS);
+                ISearchable iSearchable = new SearchableMaze(mazeToSolve);
+                ISearchingAlgorithm Search = configurations.getMazeSearchingAlgorithm();
+                solve = Search.solve(iSearchable);
+                save_sol(solve, mazeToSolve);
             }
             toClient.writeObject(solve); //write the solution to output stream.
             toClient.flush();
+            toClient.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,17 +51,16 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
     /**
      * If we don't have a solution this save the solution.
      * @param sol is the solution we want to save
-     * @param s hashcode that represent the maze
+     * @param mazeToSolve hashcode that represent the maze
      */
-    public void save_sol(Solution sol , String s) {
-
-        File solFile = new File(tempDirectoryPath + "Solution - " + s);
-        //System.out.println("solFile name is:" + solFile.getName()); //*****************************************************
+    public void save_sol(Solution sol , Maze mazeToSolve) {
 
         try {
+            File solFile = new File(tempDirectoryPath + "Solution - " + mazeToSolve.toString().hashCode());
             ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(solFile));
             objOut.writeObject(sol); //write sol into output stream.
             objOut.flush();
+            objOut.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,31 +70,26 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
     /**
      * The function search the maze using the maze hashcode.
      * If exists - returns the saved solution, otherwise return null.
-     * @param mazeCodeS the maze hash code.
+     * @param mazeToSolve the maze hash code.
      * @return the solution of the maze
      */
-    public Solution findSolution(String mazeCodeS) {
-
+    public Solution findSolution(Maze mazeToSolve) {
         Solution solved = null;
-        String myPath = this.tempDirectoryPath + "Solution - " + mazeCodeS;
+        String myPath = this.tempDirectoryPath + "Solution - " + mazeToSolve.toString().hashCode();
 
-        if (Files.exists(Path.of(myPath))) {
-            //System.out.println("find a solution!!!");
-            ObjectInputStream input = null;
-            try {
+        try {
+            if (Files.exists(Path.of(myPath))) {
+                ObjectInputStream input;
                 File solFile = new File(myPath);
                 input = new ObjectInputStream(new FileInputStream(solFile));
                 solved = (Solution) input.readObject(); //read from the file stream
                 input.close();
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-
-            return solved;
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return null;
+
+        return solved;
     }
 
 }

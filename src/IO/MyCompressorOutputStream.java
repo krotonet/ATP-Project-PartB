@@ -1,20 +1,18 @@
 package IO;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class MyCompressorOutputStream extends OutputStream {
     public OutputStream out;
+    private final int byteSize = Byte.SIZE;
 
-    //constructor
     public MyCompressorOutputStream(OutputStream outputStream) {//get array of bytes
         this.out = outputStream;
     }
 
     @Override
     public void write(int b) throws IOException {
-
     }
 
     /**
@@ -31,10 +29,10 @@ public class MyCompressorOutputStream extends OutputStream {
         }
         //every 8 bytes turn into a binary number.
         byte[] toBinary;
-        for(int i = numberOfProperties; i < b.length; i+=8){
+        for(int i = numberOfProperties; i < b.length; i += byteSize){
 
-            if(i + 8 <= b.length - 1){
-                toBinary = Arrays.copyOfRange(b, i, i+8);
+            if(i + byteSize <= b.length - 1){
+                toBinary = Arrays.copyOfRange(b, i, i + byteSize);
                 this.out.write(toBinaryByte(toBinary));
             }
             else{ //when less than 8 bytes left.
@@ -45,13 +43,12 @@ public class MyCompressorOutputStream extends OutputStream {
     }
 
     /**
-     * the function get a bytes array and turn bytes into int number.
+     * the function get a bytes array and turn bytes to it decimal representation.
      * @param binary bytes array(size 8 or less)
      * @return the number in bytes.
      */
     private byte toBinaryByte(byte[] binary){
         int ans = 0;
-        //calculate the int number
         for(int i = binary.length - 1; i >= 0; i--){
             if(binary[i] != 0)
                 ans += Math.pow(2, binary.length - i - 1);

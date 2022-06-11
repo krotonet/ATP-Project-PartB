@@ -1,41 +1,47 @@
 package Server;
-import java.io.*;
-import IO.*;
-import algorithms.mazeGenerators.*;
 
+import IO.MyCompressorOutputStream;
+import algorithms.mazeGenerators.IMazeGenerator;
+import algorithms.mazeGenerators.Maze;
+
+import java.io.*;
 
 public class ServerStrategyGenerateMaze implements IServerStrategy{
-
-    /**
-     *
-     * @param inputStream
-     * @param outputStream
-     * read arguments(row,col) from client input stream, create maze, compress it, and write it to client output stream.
-     */
+    private final Configurations configurations = Configurations.getInstance();
     @Override
     public void applyStrategy(InputStream inputStream, OutputStream outputStream) {
-        try{
-            ObjectOutputStream toClient = new ObjectOutputStream(outputStream);
+        try {
+            //read data from input
             ObjectInputStream fromClient = new ObjectInputStream(inputStream);
+            ObjectOutputStream toClient = new ObjectOutputStream(outputStream);
 
-            OutputStream out = new ByteArrayOutputStream();
-            MyCompressorOutputStream myCompressorOutputStream = new MyCompressorOutputStream(out);
+            int[] mazeDimensions = (int[]) (fromClient.readObject());
 
-            int[] arrayForMaze = (int[])fromClient.readObject();
-            int rows = arrayForMaze[0];
-            int cols = arrayForMaze[1];
-            AMazeGenerator aMazeGenerator = Configurations.mazeGeneratingAlgorithm();  //get generate algorithm
-            Maze clientMaze = aMazeGenerator.generate(rows,cols);
+            int rows = mazeDimensions[0];
+            int columns = mazeDimensions[1];
+            IMazeGenerator mazeGenerator = configurations.getMazeGeneratingAlgorithm();
+            //generate maze
+            Maze newMaze = mazeGenerator.generate(rows, columns);
 
-            byte[] byteMaze = clientMaze.toByteArray();
+            //get maze in bytes array
+            byte[] mazeInByte = newMaze.toByteArray();
 
-            myCompressorOutputStream.write(byteMaze);
-            toClient.writeObject(((ByteArrayOutputStream)myCompressorOutputStream.out).toByteArray());
+            //apply strategy on array
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            MyCompressorOutputStream myCompressorOutputStream = new MyCompressorOutputStream(byteArrayOutputStream);
+            myCompressorOutputStream.write(mazeInByte);
+            myCompressorOutputStream.flush();
+            myCompressorOutputStream.close();
+
+            //send compressed array to client
+            byte[] compressedMaze = byteArrayOutputStream.toByteArray();
+            toClient.writeObject(compressedMaze);
             toClient.flush();
+            byteArrayOutputStream.close();
+            toClient.close();
 
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
-
 }

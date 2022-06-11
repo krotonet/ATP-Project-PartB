@@ -9,7 +9,6 @@ import algorithms.search.BreadthFirstSearch;
 import algorithms.search.DepthFirstSearch;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -19,22 +18,18 @@ public class Configurations {
     private static InputStream input = null;
     private static Configurations single_instance = null;
 
-    //constructor
     private Configurations() {
         try {
             String filename = "resources\\config.properties";
-            //input = new FileInputStream("C:\\ATP-Project-PartA\\resources\\config.properties");
             input = new FileInputStream(filename);
             properties.load(input);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * @return its a singelton class so if the object exists already we will return him.
+     * @return create instance only if not initialized yet
      */
     public static Configurations getInstance() {
         if (single_instance == null) {
@@ -47,9 +42,9 @@ public class Configurations {
      *
      * @return how many threads we will use
      */
-    public static int threadPoolSize() {
+    public int getThreadPoolSize() {
         String thread_size = properties.getProperty("threadPoolSize");
-        int size = Integer.valueOf(thread_size);
+        int size = Integer.parseInt(thread_size);
         if (size > 0) {
             return size;
         } else
@@ -60,7 +55,7 @@ public class Configurations {
     /**
      * @return the type of searching algorithm
      */
-    public static ASearchingAlgorithm mazeSearchingAlgorithm() {
+    public ASearchingAlgorithm getMazeSearchingAlgorithm() {
         String maze_search_name = properties.getProperty("mazeSearchingAlgorithm");
         if (maze_search_name.equals("BreadthFirstSearch")) {
             return new BreadthFirstSearch();
@@ -73,7 +68,7 @@ public class Configurations {
     /**
      * @return the maze algorithm we will use
      */
-    public static AMazeGenerator mazeGeneratingAlgorithm() {
+    public AMazeGenerator getMazeGeneratingAlgorithm() {
         String maze_generate_name = properties.getProperty("mazeGeneratingAlgorithm");
         if (maze_generate_name.equals("SimpleMazeGenerator")) {
             return new SimpleMazeGenerator();

@@ -8,9 +8,9 @@ public class Client {
     private IClientStrategy strategy;
 
 
-    public Client(InetAddress localHost, int i, IClientStrategy clientStrategy) {
+    public Client(InetAddress localHost, int serverPort, IClientStrategy clientStrategy) {
         this.serverIP = localHost;
-        this.serverPort = i;
+        this.serverPort = serverPort;
         this.strategy = clientStrategy;
 
     }

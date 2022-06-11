@@ -1,7 +1,6 @@
 package IO;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 public class SimpleCompressorOutputStream extends OutputStream {
     private OutputStream out;
@@ -10,8 +9,12 @@ public class SimpleCompressorOutputStream extends OutputStream {
         this.out = out;
     }
 
+    @Override
+    public void write(int b) throws IOException {
+    }
+
     /**
-     * first byte in b array - 0 for identifiers lower than 225, 1 over 225
+     * first byte in b array - 0 for identifiers lower than 225, 1 for over 225
      * 2 bytes for start position and 2 bytes for goal position
      * 2 bytes for dimensions of maze rows and columns
      * @param b
@@ -19,7 +22,6 @@ public class SimpleCompressorOutputStream extends OutputStream {
      */
     @Override
     public void write(byte[] b) throws IOException {
-
         int numberOfProperties = (b[0] == 0) ? 7 : 25;
 
         for(int i = 0; i < numberOfProperties; i++){
@@ -29,21 +31,22 @@ public class SimpleCompressorOutputStream extends OutputStream {
         byte currentByte = 0;
         int currentValueCounter = 0;
         for (int i = numberOfProperties; i < b.length; i++) {
-//            if(i == b.length-1)
-//                System.out.println(currentValueCounter + " -----");
             if(b[i] == currentByte)
                 currentValueCounter++;
             else {
-//                System.out.println("index: "+ i+"  value: " + currentByte + ", repeated: " + currentValueCounter);
                 writeCurrent(currentValueCounter);
                 currentByte = b[i];
                 currentValueCounter = 1;
             }
-
         }
         writeCurrent(currentValueCounter);
     }
 
+    /**
+     * if value bigger than 256 bit, write 255 first, then 0 for other value and notify current bit continues
+     * @param currentValueCounter , value to write, representing the amount of 1/0 counted
+     * @throws IOException
+     */
     private void writeCurrent(int currentValueCounter) throws IOException {
         while(currentValueCounter >= 0){
             if(currentValueCounter >= 255){
@@ -56,10 +59,6 @@ public class SimpleCompressorOutputStream extends OutputStream {
                 break;
             }
         }
-    }
-
-    @Override
-    public void write(int b) throws IOException {
     }
 
 }

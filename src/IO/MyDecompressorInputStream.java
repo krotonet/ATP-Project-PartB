@@ -4,6 +4,7 @@ import java.io.InputStream;
 
 public class MyDecompressorInputStream extends InputStream {
     private InputStream in;
+    private final int byteSize = Byte.SIZE;
 
     public MyDecompressorInputStream(InputStream inputStream) {
         this.in = inputStream;
@@ -24,22 +25,21 @@ public class MyDecompressorInputStream extends InputStream {
     public int read(byte[] b) throws IOException {
         int totalBytesRead = 0;
         try {
-            //totalBytesRead += this.in.read(b, 0,1);
+            totalBytesRead += this.in.read(b, 0,1);
             int numberOfProperties = (b[0] == 0) ? 7 : 25;
-            totalBytesRead = this.in.read(b, 1,numberOfProperties - 1) + 1;
+            totalBytesRead = this.in.read(b, 1,numberOfProperties - 1);
 
-            int index = numberOfProperties;
+            int bIndex = numberOfProperties;
             int bytesLeft = b.length - numberOfProperties;
 
-            while (bytesLeft >= 8){
-                bytesLeft -= 8;
-                index = writeVal(b, index,8);
+            while (bytesLeft >= byteSize){
+                bytesLeft -= byteSize;
+                bIndex = writeValues(b, bIndex,byteSize);
+                totalBytesRead += byteSize;
             }
             if(bytesLeft > 0){
-                writeVal(b, index, bytesLeft);
+                totalBytesRead += writeValues(b, bIndex, bytesLeft) - bIndex;
             }
-        }catch (IOException io){
-            throw io;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -51,53 +51,38 @@ public class MyDecompressorInputStream extends InputStream {
      * write the binary number into b array.
      * @param b th array we write into
      * @param index where start writing into b array
-     * @param arraySize
      * @return the next index to write to.
      * @throws IOException
      */
-    private int writeVal(byte[] b, int index, int arraySize) throws IOException {
-        byte value;
-        int temp;
-        byte[] tempArray = new byte[arraySize];
-        int tempIndex = tempArray.length - 1;
+    private int writeValues(byte[] b, int index, int arraySize) throws IOException {
+        //read 1 byte from input
+        byte value = (byte) this.in.read();
+        int byteValue = Byte.toUnsignedInt(value);
 
-        value = (byte) this.in.read(); //read 1 byte from input
-        temp = Byte.toUnsignedInt(value); //turn it into int
+        //turn byteValue number back to binary number, start write the bytes from the end of the array
+        byte[] tempArray = getBytesArray(byteValue, arraySize);
 
-        //turn temp number back to binary number, start write the bytes from the end of the array.
-        while (temp > 0 && tempIndex>=0) {
-            tempArray[tempIndex--] = (byte) (temp % 2);
-            temp = temp / 2;
-        }
-
-        //update bytes of the original array-b.
+        //update bytes of the original array-b
         for(byte bit : tempArray){
             b[index++] = bit;
         }
         return index;
     }
 
-
-    private int writeValues(byte[] b,int bytesLeft, int index) throws IOException {
-        int tempIndex = 7;
-        byte[] tempArray;
-        if(bytesLeft > 0){
-            tempIndex = bytesLeft - 1;
-            tempArray = new byte[bytesLeft];
+    /**
+     * get bytes array of value read from file
+     * @param value, value got from file representing 8-bit number from maze
+     * @param arraySize, size is 8 or less, depends on bites left to complete the maze decompression
+     * @return ,bytes array - represent the value in 8-bit
+     */
+    private byte[] getBytesArray(int value, int arraySize){
+        byte[] tempArray = new byte[arraySize];
+        int tempIndex = tempArray.length - 1;
+        while (value > 0 && tempIndex >= 0) {
+            tempArray[tempIndex--] = (byte) (value % 2);
+            value = value / 2;
         }
-        else{
-            tempArray = new byte[8];
-        }
-        byte value = (byte) this.in.read();
-        int temp = Byte.toUnsignedInt(value);
-        while (temp > 0) {
-            tempArray[tempIndex--] = (byte) (temp % 2);
-            temp = temp / 2;
-        }
-        for(byte bit : tempArray){
-            b[index++] = bit;
-        }
-        return index;
+        return tempArray;
     }
 
 }
