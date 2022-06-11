@@ -1,12 +1,15 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
 import algorithms.search.AState;
 import algorithms.search.MazeState;
 import algorithms.search.Solution;
 
+import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.Objects;
 
-public class Maze {
+public class Maze implements Serializable {
     private final int rows;
     private final int columns;
     private final int[][] maze;
@@ -161,4 +164,133 @@ public class Maze {
         System.out.println();
     }
 
+    private int[] getMazeIdentifiers(){
+        int[] mazeIdentifiers = new int[6];
+        mazeIdentifiers[0] = rows;
+        mazeIdentifiers[1] = columns;
+        mazeIdentifiers[2] = startPosition.getRowIndex();
+        mazeIdentifiers[3] = startPosition.getColumnIndex();
+        mazeIdentifiers[4] = goalPosition.getRowIndex();
+        mazeIdentifiers[5] = goalPosition.getColumnIndex();
+        return mazeIdentifiers;
+    }
+
+    public void setIdentifiers(byte[] maze){
+
+    }
+
+    /**
+     * the function turn the maze into bytes array.
+     * first 7 bytes: <=255,row, col, start row,start col, goal row, goal col.
+     * next bytes will be the same as the maze grid.
+     * @return
+     */
+    public byte[] toByteArray(){
+        //6 for x,y of row and column of start and goal position + rows and columns numbers of maze
+        byte[] mazeByteArray;
+        int[] mazeIdentifiers = getMazeIdentifiers();
+        int nextIndex = 1;
+
+        if(rows <= 255 && columns <= 255 && goalPosition.getColumnIndex() <= 255 && goalPosition.getRowIndex() <= 255 && startPosition.getColumnIndex() <= 255 && startPosition.getRowIndex() <= 255){
+            mazeByteArray = new byte[(rows * columns) + 6 + 1];
+            mazeByteArray[0] = 0;
+            for(int value : mazeIdentifiers)
+                mazeByteArray[nextIndex++] = (byte) value;
+        }
+        else{
+            mazeByteArray = new byte[rows * columns + 6 * 4 + 1];
+            mazeByteArray[0] = 1;
+            for(int value : mazeIdentifiers) {
+                byte[] bytes = ByteBuffer.allocate(4).putInt(value).array();
+                nextIndex = mergeArrays(mazeByteArray, bytes, nextIndex);
+            }
+        }
+        //copy the maze grid to the new array, turn each number to byte number.
+        for (int[] row : maze){
+            for(int val : row){
+                mazeByteArray[nextIndex++] = (byte) val;
+            }
+        }
+        return mazeByteArray;
+    }
+
+    static int binaryToDecimal(int n)
+    {
+        int num = n;
+        int dec_value = 0;
+
+        // Initializing base
+        // value to 1, i.e 2^0
+        int base = 1;
+
+        int temp = num;
+        while (temp > 0) {
+            int last_digit = temp % 10;
+            temp = temp / 10;
+
+            dec_value += last_digit * base;
+
+            base = base * 2;
+        }
+
+        return dec_value;
+    }
+
+    private static int mergeArrays(byte[] maze, byte[] toInsert, int nextIndex){
+        int counter = 0;
+        while(counter < toInsert.length){
+            maze[nextIndex++] = toInsert[counter];
+            counter++;
+        }
+        return nextIndex;
+    }
+
+    /**
+     * a constructor that get a bytes array and use it in order to create the maze.
+     * @param bytes
+     */
+    public Maze(byte[] bytes){ //build maze with this array
+        int nextIndexToREad = 1;
+        if(bytes[0] == 0) {//7 bytes of information
+            this.rows = Byte.toUnsignedInt(bytes[1]);
+            this.columns = Byte.toUnsignedInt(bytes[2]);
+            this.startPosition = new Position(Byte.toUnsignedInt(bytes[3]), Byte.toUnsignedInt(bytes[4]));
+            this.goalPosition = new Position(Byte.toUnsignedInt(bytes[5]), Byte.toUnsignedInt(bytes[6]));
+            nextIndexToREad = 7;
+        }else{
+            this.rows = ByteBuffer.wrap(bytes, 1, 4).getInt();;
+            this.columns = ByteBuffer.wrap(bytes, 5,4).getInt();;
+            this.startPosition = new Position(ByteBuffer.wrap(bytes, 9,4).getInt(), ByteBuffer.wrap(bytes, 13,4).getInt());
+            this.goalPosition = new Position(ByteBuffer.wrap(bytes, 17,4).getInt(), ByteBuffer.wrap(bytes, 21,4).getInt());
+            nextIndexToREad = 25;
+        }
+        this.maze = new int[this.rows][this.columns];
+        for(int i = 0; i < this.rows; i++){
+            for(int j = 0; j < this.columns; j++) {
+                this.maze[i][j] = Byte.toUnsignedInt(bytes[nextIndexToREad++]);
+            }
+        }
+
+
+    }
+    public String toString(){
+        String s;
+        s = rows + " " + columns + " " + startPosition.getRowIndex() + " " + startPosition.getColumnIndex() + " " + goalPosition.getRowIndex() + " " + goalPosition.getColumnIndex() + " " ;
+        return s;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Maze maze1 = (Maze) o;
+        return rows == maze1.rows && columns == maze1.columns && Arrays.equals(maze, maze1.maze) && Objects.equals(startPosition, maze1.startPosition) && Objects.equals(goalPosition, maze1.goalPosition);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(rows, columns, startPosition, goalPosition);
+        result = 31 * result + Arrays.hashCode(maze);
+        return result;
+    }
 }

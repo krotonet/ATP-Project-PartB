@@ -58,4 +58,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm{
         return String.valueOf(this.numOfNodes);
     }
 
+    public Object newAlgorithm(){
+        return new DepthFirstSearch();
+    }
 }

@@ -7,4 +7,6 @@ public interface ISearchingAlgorithm {
 
     String getNumberOfNodesEvaluated();
 
+    public Object newAlgorithm();
+
 }

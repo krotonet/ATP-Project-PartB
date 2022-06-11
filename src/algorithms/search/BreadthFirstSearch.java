@@ -16,4 +16,8 @@ public class BreadthFirstSearch extends ASearchingAlgorithm{
         return "Breath First Search";
     }
 
+
+    public Object newAlgorithm(){
+        return new BreadthFirstSearch();
+    }
 }
