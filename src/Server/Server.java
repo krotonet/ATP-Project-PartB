@@ -26,7 +26,7 @@ public class Server {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningIntervalMS);
-            //System.out.println("Starting server at - Port = " + port);
+            System.out.println("Starting server at - Port = " + port);
 
             new Thread(()-> handleMultipleClients(serverSocket)).start();
 
@@ -39,7 +39,7 @@ public class Server {
             while (!stop) {
                 try {
                     Socket clientSocket = serverSocket.accept();
-                    //System.out.println("Client accepted: " + clientSocket.toString());
+                    System.out.println("Client accepted: " + clientSocket.toString());
 
                     // Insert the new task into the thread pool:
                     threadPool.submit(() -> handleClient(clientSocket) );
@@ -68,7 +68,7 @@ public class Server {
     }
 
     public void stop(){
-        //System.out.println("Server shutting down");
+        System.out.println("Server shutting down");
         stop = true;
     }
 

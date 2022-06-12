@@ -29,7 +29,8 @@ public class Configurations {
     }
 
     /**
-     * @return create instance only if not initialized yet
+     * @return an instance of configurations
+     * creating new if not initialized
      */
     public static Configurations getInstance() {
         if (single_instance == null) {

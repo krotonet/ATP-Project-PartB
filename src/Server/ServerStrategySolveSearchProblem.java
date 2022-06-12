@@ -1,6 +1,4 @@
 package Server;
-import IO.MyCompressorOutputStream;
-import IO.MyDecompressorInputStream;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.*;
 
@@ -12,8 +10,6 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
     private final String tempDirectoryPath;
     private final Configurations configurations = Configurations.getInstance();
 
-
-    //constructor.
     public ServerStrategySolveSearchProblem() {
         this.tempDirectoryPath = System.getProperty("java.io.tmpdir");
     }
@@ -21,6 +17,8 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy{
     /**
      * the function read the maze from input stream, then try to find a solution`s file using maze hashcode.
      * if no such file then solve the maze and save the file.
+     * @param inputStream ,client input
+     * @param outputStream ,server response
      */
     @Override
     public void applyStrategy(InputStream inputStream, OutputStream outputStream) {

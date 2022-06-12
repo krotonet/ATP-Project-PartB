@@ -8,6 +8,12 @@ import java.io.*;
 
 public class ServerStrategyGenerateMaze implements IServerStrategy{
     private final Configurations configurations = Configurations.getInstance();
+
+    /**
+     * applying maze generation on clients input - array with the dimensions required
+     * @param inputStream ,client input
+     * @param outputStream ,server response
+     */
     @Override
     public void applyStrategy(InputStream inputStream, OutputStream outputStream) {
         try {
@@ -37,6 +43,7 @@ public class ServerStrategyGenerateMaze implements IServerStrategy{
             byte[] compressedMaze = byteArrayOutputStream.toByteArray();
             toClient.writeObject(compressedMaze);
             toClient.flush();
+
             byteArrayOutputStream.close();
             toClient.close();
 

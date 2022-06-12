@@ -13,13 +13,18 @@ public class SimpleDecompressorInputStream extends InputStream {
     @Override
     public int read(){ return 0; }
 
+    /**
+     *
+     * @param b ,bytes array for decompressed data
+     * @return , number of bytes read
+     * @throws IOException
+     */
     @Override
     public int read(byte[] b) throws IOException {
         int numberOfProperties = this.in.read(b, 0,1);
 
         numberOfProperties = (b[0] == 0) ? 7 : 25;
         int totalBytesRead = this.in.read(b, 1,numberOfProperties - 1) + 1;
-
 
         byte currentValue = 0;
         int index = numberOfProperties;

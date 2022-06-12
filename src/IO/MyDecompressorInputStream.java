@@ -17,31 +17,27 @@ public class MyDecompressorInputStream extends InputStream {
 
     /**
      * read from input stream, turn every byte into a binary number and place it into b array.
-     * @param b
+     * @param b, for read bytes
      * @return total bytes that have been read
      * @throws IOException
      */
     @Override
     public int read(byte[] b) throws IOException {
-        int totalBytesRead = 0;
-        try {
-            totalBytesRead += this.in.read(b, 0,1);
-            int numberOfProperties = (b[0] == 0) ? 7 : 25;
-            totalBytesRead = this.in.read(b, 1,numberOfProperties - 1);
+        int totalBytesRead = this.in.read(b, 0,1);
 
-            int bIndex = numberOfProperties;
-            int bytesLeft = b.length - numberOfProperties;
+        int numberOfProperties = (b[0] == 0) ? 7 : 25;
+        totalBytesRead = this.in.read(b, 1,numberOfProperties - 1);
 
-            while (bytesLeft >= byteSize){
-                bytesLeft -= byteSize;
-                bIndex = writeValues(b, bIndex,byteSize);
-                totalBytesRead += byteSize;
-            }
-            if(bytesLeft > 0){
-                totalBytesRead += writeValues(b, bIndex, bytesLeft) - bIndex;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+        int bIndex = numberOfProperties;
+        int bytesLeft = b.length - numberOfProperties;
+
+        while (bytesLeft >= byteSize){
+            bytesLeft -= byteSize;
+            bIndex = writeValues(b, bIndex,byteSize);
+            totalBytesRead += byteSize;
+        }
+        if(bytesLeft > 0){
+            totalBytesRead += writeValues(b, bIndex, bytesLeft) - bIndex;
         }
         return totalBytesRead;
     }
