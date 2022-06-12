@@ -17,7 +17,7 @@ public class SimpleCompressorOutputStream extends OutputStream {
      * first byte in b array - 0 for identifiers lower than 225, 1 for over 225
      * 2 bytes for start position and 2 bytes for goal position
      * 2 bytes for dimensions of maze rows and columns
-     * @param b
+     * @param b ,for bytes written
      * @throws IOException
      */
     @Override
